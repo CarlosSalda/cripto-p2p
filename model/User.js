@@ -43,19 +43,19 @@ class User {
     
         switch (undefined) {
             case validated_name.value:
-                return validated_name.error;
+                return validated_name;
             case validated_surname.value:
-                return validated_surname.error;
+                return validated_surname;
             case validated_email.value:
-                return validated_email.error;
+                return validated_email;
             case validated_adress.value:
-                return validated_adress.error;
+                return validated_adress;
             case validated_password.value:
-                return validated_password.error;
+                return validated_password;
             case validated_cvu.value:
-                return validated_cvu.error;
+                return validated_cvu;
             case validated_criptoAdress.value:
-                return validated_criptoAdress.error;
+                return validated_criptoAdress;
             default:
                 return new User(user_data)
         }
