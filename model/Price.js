@@ -16,8 +16,20 @@ class Price {
     return this.cValue
   }
 
+  setDate (date) {
+    this.datetime = date
+  }
+
   getDate () {
     return this.datetime
+  }
+
+  setCryptoactive (cryptoactive) {
+    this.cryptoactive = cryptoactive
+  }
+
+  getCryptoactive () {
+    return this.cryptoactive
   }
 }
 
