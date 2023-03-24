@@ -151,7 +151,7 @@ describe('User model tests', () => {
             const validated_user = user_model.User.validateUser(user);
             
             expect(validated_user).toBeInstanceOf(user_model.User);
-            expect(validated_user.name).toBe('Bob');
+            expect(validated_user.name).toBe(user.name);
         })
     })
 });
