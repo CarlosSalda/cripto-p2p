@@ -1,7 +1,8 @@
 const ValueError = require('./errors/PriceError')
+const Intentions = require('./enums/intentions')
 
 class Transaction {
-  constructor (cryptoactive, nominalAmount, cotization, operationValue, user, operationAmount, reputation, action, isBuying) {
+  constructor (cryptoactive, nominalAmount, cotization, operationValue, user, operationAmount, reputation, action, type) {
     this.cryptoactive = cryptoactive
     this.nominalAmount = nominalAmount
     this.cotization = cotization
@@ -10,7 +11,8 @@ class Transaction {
     this.operationAmount = operationAmount
     this.reputation = reputation
     this.action = action
-    this.isBuying = isBuying
+    this.type = type
+    this.date = new Date()
   }
 
   setCryptoactive (cryptoactive) {
@@ -77,7 +79,7 @@ class Transaction {
   }
 
   getAddress () {
-    return this.isBuying ? this.user.address : this.user.cvu
+    return this.type === Intentions.BUY ? this.user.address : this.user.cvu
   }
 
   setAction (action) {
@@ -89,11 +91,35 @@ class Transaction {
   }
 
   setBuyOperation () {
-    this.isBuying = true
+    this.type = Intentions.BUY
   }
 
   setSellOperation () {
-    this.isBuying = false
+    this.isBuying = Intentions.SELL
+  }
+
+  setDate (date) {
+    this.date = date
+  }
+
+  cancelOperationByUser () {
+    this.user.addOperationCanceled()
+  }
+
+  cancelOperationBySystem () {
+    // cancel operation
+  }
+
+  operationCompleted () {
+    const quickOperation = this.betweenRegularTime(this.date, new Date())
+
+    this.user.addSuccessfullOperation(quickOperation)
+  }
+
+  betweenRegularTime(startDate, currentDate) {
+    const diff = currentDate.getTime() - startDate.getTime()
+
+    return (diff / 60000) <= 30
   }
 }
 

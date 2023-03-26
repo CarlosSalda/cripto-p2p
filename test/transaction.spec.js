@@ -6,6 +6,14 @@ const EnumsAction = require('../model/enums/actions')
 const { describe, expect, test } = require('@jest/globals')
 const { User } = require('../model/User')
 
+const addSuccessfullOperationMock = jest
+  .spyOn(User.prototype, 'addSuccessfullOperation')
+  .mockImplementation(() => {})
+
+const addOperationCanceledMock = jest
+  .spyOn(User.prototype, 'addOperationCanceled')
+  .mockImplementation(() => {})
+
 describe('Transaction model tests', () => {
   describe(('Cryptoactive'), () => {
     test('Should set cryptoactive to solana.', () => {
@@ -137,6 +145,48 @@ describe('Transaction model tests', () => {
       const transaction = anyTransaction()
       transaction.setAction(EnumsAction.RECEPTION_CONFIRMED)
       expect(transaction.getAction()).toEqual(EnumsAction.RECEPTION_CONFIRMED)
+    })
+  })
+
+  describe(('Operation actions'), () => {
+    test('Confirm operation within 30 minutes', () => {
+      const transaction = anyTransaction()
+
+      transaction.date = new Date()
+      transaction.operationCompleted()
+
+      expect(addSuccessfullOperationMock).toBeCalledWith(true)
+    })
+
+    test('Confirm operation outside 30 minutes', () => {
+      addSuccessfullOperationMock.mockClear()
+      const transaction = anyTransaction()
+
+      var MS_PER_MINUTE = 60000;
+      var startDate = new Date((new Date()) - 31 * MS_PER_MINUTE)
+      transaction.setDate(startDate)
+
+      transaction.operationCompleted()
+
+      expect(addSuccessfullOperationMock).toBeCalledWith(false)
+    })
+
+    test('Cancel operation by user and discount reputation', () => {
+      addOperationCanceledMock.mockClear()
+      const transaction = anyTransaction()
+
+      transaction.cancelOperationByUser()
+
+      expect(addOperationCanceledMock).toBeCalled()
+    })
+
+    test('Cancel operation by system and NOT discount reputation', () => {
+      addOperationCanceledMock.mockClear()
+      const transaction = anyTransaction()
+
+      transaction.cancelOperationBySystem()
+
+      expect(addOperationCanceledMock).toBeCalledTimes(0)
     })
   })
 })

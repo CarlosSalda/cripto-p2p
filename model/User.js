@@ -60,6 +60,14 @@ class User {
                 return new User(user_data)
         }
     }
+
+    addOperationCanceled () {
+      // TODO
+    }
+
+    addSuccessfullOperation (quickOperation) {
+      // TODO
+    }
 }
 const regex_mayus_minus = /^(?=.*[a-z])(?=.*[A-Z])/;
 const regex_string = /^(?=.*[a-z])/;
