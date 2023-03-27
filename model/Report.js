@@ -43,6 +43,10 @@ class Report {
   getCriptoactives () {
     return this.criptoactives
   }
+
+  setCriptoactivesList (criptoactives) {
+    this.criptoactives = criptoactives
+  }
 }
 
 module.exports = Report

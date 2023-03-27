@@ -1,4 +1,6 @@
 const Report = require('../model/Report')
+const Criptoactives = require('../model/enums/cryptoactive')
+
 const { describe, expect, test } = require('@jest/globals')
 
 describe('Reports tests', () => {
@@ -47,6 +49,32 @@ describe('Reports tests', () => {
       expect(fn).toThrowError()
     })
   })
+
+  describe(('Criptoactives'), () => {
+    test('Should add an element and return a list with 1 element', () => {
+      const report = anyReport()
+
+      report.addCriptoactive(randomCriptoactive)
+
+      expect(report.getCriptoactives().length).toBe(1)
+    })
+
+    test('Should set criptoactives list', () => {
+      const report = anyReport()
+      const list = [randomCriptoactive]
+
+      report.setCriptoactivesList(list)
+
+      expect(report.getCriptoactives()).toBe(list)
+    })
+  })
 })
 
 const anyReport = () => new Report(new Date(), 1525, 767000, [])
+const randomCriptoactive = {
+  criptoACtive: Criptoactives.USDC,
+  nominalAmount: 25,
+  cotization: 100,
+  arsCotization: 37700
+
+}
