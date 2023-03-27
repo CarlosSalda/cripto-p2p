@@ -8,8 +8,8 @@ describe('Reports tests', () => {
     test('set datetime to 30 minutes before now', () => {
       const report = anyReport()
 
-      var MS_PER_MINUTE = 60000;
-      var startDate = new Date((new Date()) - 31 * MS_PER_MINUTE)
+      const MS_PER_MINUTE = 60000
+      const startDate = new Date((new Date()) - 31 * MS_PER_MINUTE)
       report.setDatetime(startDate)
 
       expect(report.getDatetime().getTime()).toBe(startDate.getTime())
@@ -76,5 +76,4 @@ const randomCriptoactive = {
   nominalAmount: 25,
   cotization: 100,
   arsCotization: 37700
-
 }
