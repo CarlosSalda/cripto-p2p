@@ -1,3 +1,4 @@
+const UserError = require('./errors/UserError')
 class User {
   constructor ({ name, surname, email, adress, password, cvu, criptoAdress }) {
     this.name = name
@@ -32,33 +33,16 @@ class User {
     const validatedCvu = validateCvu(user.cvu)
     const validatedCriptoAdress = validateCripto(user.criptoAdress)
     const userData = {
-      name: validatedName.value,
-      surname: validatedSurname.value,
-      email: validatedEmail.value,
-      adress: validatedAdress.value,
-      password: validatedPassword.value,
-      cvu: validatedCvu.value,
-      criptoAdress: validatedCriptoAdress.value
+      name: validatedName,
+      surname: validatedSurname,
+      email: validatedEmail,
+      adress: validatedAdress,
+      password: validatedPassword,
+      cvu: validatedCvu,
+      criptoAdress: validatedCriptoAdress
     }
 
-    switch (undefined) {
-      case validatedName.value:
-        return validatedName
-      case validatedSurname.value:
-        return validatedSurname
-      case validatedEmail.value:
-        return validatedEmail
-      case validatedAdress.value:
-        return validatedAdress
-      case validatedPassword.value:
-        return validatedPassword
-      case validatedCvu.value:
-        return validatedCvu
-      case validatedCriptoAdress.value:
-        return validatedCriptoAdress
-      default:
-        return new User(userData)
-    }
+    return new User(userData)
   }
 
   addOperationCanceled () {
@@ -70,7 +54,7 @@ class User {
   }
 }
 const regexMayusMinus = /^(?=.*[a-z])(?=.*[A-Z])/
-const regexString = /^(?=.*[a-z])/
+const regexString = /^[a-zA-Z]+$/
 const regexSpecial = /^(?=.*[!@#$%^&*_-])/
 const regexEmail = /^(([^<>()[\]\\.,:\s@"]+(\.[^<>()[\]\\.,:\s@"]+)*)|(".+"))@((\[\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 const regexlength = (start, end) => {
@@ -79,65 +63,47 @@ const regexlength = (start, end) => {
 
 const validateName = (data, key) => {
   const trimmed = data.trim()
-  switch (false) {
-    case regexString.test(trimmed):
-      return { error: `The ${key} should contain only letters` }
-    case regexlength(3, 30).test(trimmed):
-      return { error: `The ${key} should contain between 3 and 30 characters` }
-    default:
-      return { value: trimmed }
-  }
+  if (regexString.test(trimmed) === false) throw new UserError(`The ${key} should contain only letters`)
+  if (regexlength(3, 30).test(trimmed) === false) throw new UserError(`The ${key} should contain between 3 and 30 characters`)
+
+  return trimmed
 }
 
 const validateEmail = (email) => {
   const trimmed = email.trim()
+  if (!regexEmail.test(trimmed)) throw new UserError('The email is a not valid email')
 
-  if (!regexEmail.test(trimmed)) {
-    return { error: 'The email is a not valid email' }
-  }
-
-  return { value: trimmed }
+  return trimmed
 }
 
 const validateAdress = (adress) => {
   const trimmed = adress.trim()
+  if (!regexlength(10, 30).test(trimmed)) throw new UserError('The adress should contain between 10 and 30 characters')
 
-  if (!regexlength(10, 30).test(trimmed)) {
-    return { error: 'The adress should contain between 10 and 30 characters' }
-  }
-
-  return { value: trimmed }
+  return trimmed
 }
 
 const validatePassword = (password) => {
   const trimmed = password.trim()
+  if (trimmed.length < 6) throw new UserError('The password should contain at least 6 characters')
+  if (!regexMayusMinus.test(trimmed)) throw new UserError('The password should contain at least 1 mayus and 1 minus character')
+  if (!regexSpecial.test(trimmed)) throw new UserError('The password should contain at least 1 special character')
 
-  switch (false) {
-    case trimmed.length >= 6:
-      return { error: 'The password should contain at least 6 characters' }
-    case regexMayusMinus.test(trimmed):
-      return { error: 'The password should contain at least 1 mayus and 1 minus character' }
-    case regexSpecial.test(trimmed):
-      return { error: 'The password should contain at least 1 special character' }
-    default:
-      return { value: trimmed }
-  }
+  return trimmed
 }
 
 const validateCvu = (cvu) => {
   const trimmed = cvu.trim()
-  if (trimmed.length !== 22) {
-    return { error: 'The CVU should contain only 22 characters' }
-  }
-  return { value: trimmed }
+  if (trimmed.length !== 22) throw new UserError('The CVU should contain only 22 characters')
+
+  return trimmed
 }
 
 const validateCripto = (criptoAdress) => {
   const trimmed = criptoAdress.trim()
-  if (trimmed.length !== 8) {
-    return { error: 'The cripto adress should contain only 8 characters' }
-  }
-  return { value: trimmed }
+  if (trimmed.length !== 8) throw new UserError('The cripto adress should contain only 8 characters')
+
+  return trimmed
 }
 
 module.exports = {
