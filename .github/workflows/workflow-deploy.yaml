@@ -1,8 +1,7 @@
-name: Railway Auto-Deploy
+name: Railway Auto-Deploy Development
 on:
   push:
     branches:
-      - main
       - development
 jobs:
   deploy:
@@ -13,6 +12,6 @@ jobs:
       - name: Install dependencies
         run: npm install
       - name: Build and deploy
-        uses: railwayapp/starters-action@v1.x
+        uses: CarlosSalda/cripto-p2p@development
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
