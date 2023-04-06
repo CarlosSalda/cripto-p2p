@@ -1,0 +1,13 @@
+name: Launch
+description: Launch server
+inputs:
+  name:
+    description: 'Cripto-P2P'
+    required: true
+    default: ''
+outputs:
+  greeting:
+    description: ''
+runs:
+  using: 'node19'
+  main: 'server.js'
