@@ -1,5 +1,9 @@
 name: Launch
 description: Launch server
+on:
+  push:
+    branches:
+      - main
 inputs:
   name:
     description: 'Cripto-P2P'
