@@ -37,7 +37,7 @@ class Report {
   }
 
   addCriptoactive (active, nominalAmount, cotization, arsCotization) {
-    this.criptoactives.push({ criptoActive: active, nominalAmount, cotization, arsCotization})
+    this.criptoactives.push({ criptoActive: active, nominalAmount, cotization, arsCotization })
   }
 
   getCriptoactives () {

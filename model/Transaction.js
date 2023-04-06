@@ -116,7 +116,7 @@ class Transaction {
     this.user.addSuccessfullOperation(quickOperation)
   }
 
-  betweenRegularTime(startDate, currentDate) {
+  betweenRegularTime (startDate, currentDate) {
     const diff = currentDate.getTime() - startDate.getTime()
 
     return (diff / 60000) <= 30

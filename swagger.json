@@ -1,0 +1,54 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Example API"
+  },
+  "basePath": "/api/v1",
+  "schemes": ["http", "https"],
+  "paths": {
+    "/users": {
+      "get": {
+        "summary": "Get a list of users",
+        "responses": {
+          "200": {
+            "description": "Users Information",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "surname": {
+                  "type": "string"
+                },
+                "email": {
+                  "type": "string",
+                  "format": "email"
+                },
+                "address": {
+                  "type": "string"
+                },
+                "password": {
+                  "type": "string",
+                  "pattern": "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$"
+                },
+                "cvu": {
+                  "type": "string",
+                  "pattern": "^[0-9]{22}$"
+                },
+                "cryptoAddress": {
+                  "type": "string",
+                  "pattern": "^[0-9]{8}$"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request"
+          }
+        }
+      }
+    }
+  }
+}
