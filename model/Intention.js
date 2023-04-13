@@ -1,11 +1,33 @@
+const SystemDiffError = require('./errors/SystemError')
+
 class Intention {
-  constructor ({ criptoName, amountCripto, valueCripto, amountPesos, userData, type }) {
+  constructor ({ criptoName, amountCripto, valueCripto, amountPesos, userData, type }, system) {
+    if (system && system.getDifferenceAgainstMarketValue(amountPesos) > 5) {
+      throw new SystemDiffError('Value diff with market value +/- than 5%')
+    }
+
     this.criptoName = criptoName
     this.amountCripto = amountCripto
     this.valueCripto = valueCripto
     this.amountPesos = amountPesos
     this.userData = userData
     this.type = type
+  }
+
+  setAmountPesos (value) {
+    this.amountPesos = value
+  }
+
+  getAmountPesos () {
+    return this.amountPesos
+  }
+
+  setValueCripto (value) {
+    this.valueCripto = value
+  }
+
+  getValueCripto () {
+    return this.valueCripto
   }
 
   static validateIntention = (intention) => {

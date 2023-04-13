@@ -1,5 +1,15 @@
 const intentionModel = require('../model/Intention')
+const SystemError = require('../model/errors/SystemError')
+const System = require('../model/System')
 const { describe, expect, test } = require('@jest/globals')
+const FAKE_MARKET_VALUE = 10000
+
+const mockShouldMarketDiffFail = jest.fn().mockImplementation((value) => Math.abs(FAKE_MARKET_VALUE - value))
+jest.mock('../model/System', () => {
+  return jest.fn().mockImplementation(() => {
+    return { getDifferenceAgainstMarketValue: mockShouldMarketDiffFail };
+  })
+})
 
 describe('Intention model tests', () => {
   describe(('Intention criptoName validation tests'), () => {
@@ -81,18 +91,41 @@ describe('Intention model tests', () => {
 
   describe(('Intention creation success'), () => {
     test('Should return an intention when all the fields are correct', () => {
-      const intention = {
-        criptoName: 'CAKEUSDT',
-        amountCripto: 1000,
-        valueCripto: 5,
-        amountPesos: 5000,
-        userData: 'Pedro Gomez',
-        type: 'SELL'
-      }
+      const intention = anyIntentionObject()
       const validatedIntention = intentionModel.Intention.validateIntention(intention)
 
       expect(validatedIntention).toBeInstanceOf(intentionModel.Intention)
       expect(validatedIntention.userData).toBe(intention.userData)
     })
+
+    test('Should throw an error when intention price is not within 5% +/- of system price', () => {
+      const intention = () => anyIntention(5000)
+
+      expect(intention).toThrow(SystemError)
+    })
+
+    test('Should create intention successfully', () => {
+      const intention = anyIntention(9995)
+
+      expect(intention).toBeInstanceOf(intentionModel.Intention)
+    })
   })
 })
+
+const anyIntentionObject = () => {
+  return {
+    criptoName: 'CAKEUSDT',
+    amountCripto: 1000,
+    valueCripto: 5,
+    amountPesos: 5000,
+    userData: 'Pedro Gomez',
+    type: 'SELL'
+  }
+}
+
+const anyIntention = (value) => {
+  const intentionData = anyIntentionObject()
+  intentionData.amountPesos = value
+  const intention = new intentionModel.Intention(intentionData, System())
+  return intention
+}
