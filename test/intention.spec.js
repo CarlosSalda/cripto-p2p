@@ -7,7 +7,7 @@ const FAKE_MARKET_VALUE = 10000
 const mockShouldMarketDiffFail = jest.fn().mockImplementation((value) => Math.abs(FAKE_MARKET_VALUE - value))
 jest.mock('../model/System', () => {
   return jest.fn().mockImplementation(() => {
-    return { getDifferenceAgainstMarketValue: mockShouldMarketDiffFail };
+    return { getPercentageDifferenceAgainstMarketValue: mockShouldMarketDiffFail }
   })
 })
 
@@ -89,7 +89,7 @@ describe('Intention model tests', () => {
     })
   })
 
-  describe(('Intention creation success'), () => {
+  describe(('Intention creation'), () => {
     test('Should return an intention when all the fields are correct', () => {
       const intention = anyIntentionObject()
       const validatedIntention = intentionModel.Intention.validateIntention(intention)
@@ -110,6 +110,28 @@ describe('Intention model tests', () => {
       expect(intention).toBeInstanceOf(intentionModel.Intention)
     })
   })
+
+  describe(('Intention confirmation'), () => {
+    test('Should confirm intention successfully', () => {
+      mockShouldMarketDiffFail.mockClear()
+
+      const system = new System()
+      const intention = anyWellCreatedIntention(system)
+
+      intention.confirmIntention()
+      expect(system.getPercentageDifferenceAgainstMarketValue).toHaveBeenCalledTimes(2)
+    })
+
+    test('Should fail when confirm intention', () => {
+      mockShouldMarketDiffFail.mockClear()
+
+      const system = new System()
+      const intention = anyWellCreatedIntention(system)
+      intention.setAmountPesos(50)
+
+      expect(() => intention.confirmIntention()).toThrow(SystemError)
+    })
+  })
 })
 
 const anyIntentionObject = () => {
@@ -127,5 +149,12 @@ const anyIntention = (value) => {
   const intentionData = anyIntentionObject()
   intentionData.amountPesos = value
   const intention = new intentionModel.Intention(intentionData, System())
+  return intention
+}
+
+const anyWellCreatedIntention = (system) => {
+  const intentionData = anyIntentionObject()
+  intentionData.amountPesos = 9995
+  const intention = new intentionModel.Intention(intentionData, system)
   return intention
 }
