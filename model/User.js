@@ -1,4 +1,5 @@
 const UserError = require('./errors/UserError')
+const ReputationEnum = require('./enums/reputation')
 class User {
   constructor ({ name, surname, email, adress, password, cvu, criptoAdress }) {
     this.name = name
@@ -8,6 +9,8 @@ class User {
     this.password = password
     this.cvu = cvu
     this.criptoAdress = criptoAdress
+    this.totalOperations = 0
+    this.completedOperations = 0
   }
 
   static anyUserWithSpecificKey (key, value) {
@@ -46,11 +49,28 @@ class User {
   }
 
   addOperationCanceled () {
+    this.totalOperations += 1
     // TODO
   }
 
   addSuccessfullOperation (quickOperation) {
-    // TODO
+    this.completedOperations += 1
+    this.totalOperations += 1
+    // TODO: add operation in DB
+  }
+
+  getCompletedOperations () {
+    return this.completedOperations
+  }
+
+  getTotalOperations () {
+    return this.totalOperations
+  }
+
+  getReputation () {
+    if (this.totalOperations === 0) return ReputationEnum.NO_OPERATIONS_YET
+
+    return (this.completedOperations / this.totalOperations).toString()
   }
 }
 const regexMayusMinus = /^(?=.*[a-z])(?=.*[A-Z])/

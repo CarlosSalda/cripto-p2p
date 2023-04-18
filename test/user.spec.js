@@ -1,5 +1,6 @@
 const { User } = require('../model/User')
 const UserError = require('../model/errors/UserError')
+const ReputationEnum = require('../model/enums/reputation')
 const { describe, expect, test } = require('@jest/globals')
 
 describe('User model tests', () => {
@@ -144,6 +145,33 @@ describe('User model tests', () => {
       expect(validatedUser.name).toBe(anyUser.name)
     })
   })
+
+  describe(('Reputation'), () => {
+    test('Should return reputation of 1', () => {
+      const user = anyUserFunction()
+      const expectedReputation = 1
+
+      user.addSuccessfullOperation()
+
+      expect(user.getReputation()).toBe(expectedReputation.toString())
+    })
+
+    test('Should return -Sin operaciones-', () => {
+      const user = anyUserFunction()
+
+      expect(user.getReputation()).toBe(ReputationEnum.NO_OPERATIONS_YET)
+    })
+
+    test('Should return reputation of 0.5', () => {
+      const user = anyUserFunction()
+      const expectedReputation = 0.5
+
+      user.addSuccessfullOperation()
+      user.addOperationCanceled()
+
+      expect(user.getReputation()).toBe(expectedReputation.toString())
+    })
+  })
 })
 
 const randomUserData = {
@@ -156,3 +184,4 @@ const randomUserData = {
   criptoAdress: '12345678'
 }
 const anyUser = new User(randomUserData)
+const anyUserFunction = () => new User(randomUserData)
