@@ -13,6 +13,7 @@ const corsOptions = {
 // Api
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
+app.disable('x-powered-by')
 
 app.use((req, res, next) => {
   if (req.url === '/') {
