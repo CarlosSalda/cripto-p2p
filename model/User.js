@@ -79,7 +79,7 @@ const regexMayusMinus = /^(?=.*[a-z])(?=.*[A-Z])/
 const regexString = /^[A-Za-z\s-]+$/
 const regexSpecial = /^(?=.*[!@#$%^&*_-])/
 // const regexEmail = /^(([^<>()[\]\\.,:\s@"]+(\.[^<>()[\]\\.,:\s@"]+)*)|(".+"))@((\[\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-const regexEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/i
+const regexEmail = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i
 const regexlength = (start, end) => {
   return new RegExp('^(?=.{' + start + ',' + end + '}$)')
 }

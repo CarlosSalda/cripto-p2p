@@ -148,7 +148,7 @@ const anyIntentionObject = () => {
 const anyIntention = (value) => {
   const intentionData = anyIntentionObject()
   intentionData.amountPesos = value
-  const intention = new intentionModel.Intention(intentionData, System())
+  const intention = new intentionModel.Intention(intentionData, new System())
   return intention
 }
 

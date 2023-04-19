@@ -162,8 +162,8 @@ describe('Transaction model tests', () => {
       addSuccessfullOperationMock.mockClear()
       const transaction = anyTransaction()
 
-      var MS_PER_MINUTE = 60000;
-      var startDate = new Date((new Date()) - 31 * MS_PER_MINUTE)
+      const MS_PER_MINUTE = 60000
+      const startDate = new Date((new Date()) - 31 * MS_PER_MINUTE)
       transaction.setDate(startDate)
 
       transaction.operationCompleted()
