@@ -5,6 +5,8 @@ const app = express()
 require('./persistence/database')
 const apiRoutes = require('./routes/apiRoutes')
 const cors = require('cors')
+const swaggerUi = require('swagger-ui-express')
+const swaggerDocument = require('./swagger/swagger.json')
 
 const corsOptions = {
   origin: process.env.BASE_URL
@@ -22,6 +24,7 @@ app.use((req, res, next) => {
   next()
 })
 
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
 app.use(cors(corsOptions))
 app.use('/api', apiRoutes)
 

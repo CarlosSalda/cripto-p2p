@@ -2,17 +2,40 @@
   "swagger": "2.0",
   "info": {
     "version": "1.0.0",
-    "title": "Example API"
+    "title": "Cripto-p2p"
   },
-  "basePath": "/api/v1",
-  "schemes": ["http", "https"],
+  "basePath": "/api",
+  "schemes": [
+    "http",
+    "https"
+  ],
   "paths": {
-    "/users": {
+    "/api": {
       "get": {
-        "summary": "Get a list of users",
+        "description": "Welcome",
         "responses": {
           "200": {
-            "description": "Users Information",
+            "description": "Welcome to Cripto-p2p"
+          }
+        }
+      }
+    },
+    "/register": {
+      "post": {
+        "summary": "Register a user",
+        "description": "Register a user",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "register parameters",
+            "required": true,
             "schema": {
               "type": "object",
               "properties": {
@@ -43,9 +66,14 @@
                 }
               }
             }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "User created"
           },
-          "400": {
-            "description": "Invalid request"
+          "500": {
+            "description": "Internal Server Error"
           }
         }
       }
