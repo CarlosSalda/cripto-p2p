@@ -1,3 +1,22 @@
+# cripto-p2p
+> First Tag of Desarrollo de aplicaciones TP
+
+### New Features
+* Complete model flow developed with Node.Js.
+* User registration endpoint with express
+* Railway CI/CD
+* Sonarcloud configured and working correctly
+* Tests available just executing the following command: `npm run test`
+
+### Bug Fixes
+* N/A
+
+### Performance Improvements
+* N/A
+
+### Other Changes
+* N/A
+=======
 # CriptoP2P
 
 Se requiere construir  MVP (Minimum Viable Product) para el uso Peer-to-Peer (p2p) de criptomonedas. El objetivo del producto es generar una comunidad de confianza para poder canjear criptomonedas por pesos argentinos. El sistema es similar a las billeteras que permiten realizar pagos p2p entre personas ya sea con dinero como Airtm, Skrill o Binance y el servicio P2P para comprar criptomonedas entre personas.

@@ -2,9 +2,10 @@
   "name": "cripto-p2p",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest",
+    "test:coverage": "istanbul cover --report html --dir coverage npm test"
   },
   "repository": {
     "type": "git",
@@ -15,5 +16,23 @@
   "bugs": {
     "url": "https://github.com/CarlosSalda/cripto-p2p/issues"
   },
-  "homepage": "https://github.com/CarlosSalda/cripto-p2p#readme"
+  "homepage": "https://github.com/CarlosSalda/cripto-p2p#readme",
+  "devDependencies": {
+    "@jest/globals": "^29.5.0",
+    "eslint": "^8.36.0",
+    "eslint-config-standard": "^17.0.0",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-n": "^15.6.1",
+    "eslint-plugin-promise": "^6.1.1",
+    "istanbul": "^0.4.5",
+    "jest": "^29.5.0"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "mongoose": "^7.0.3",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^4.6.2"
+  }
 }
