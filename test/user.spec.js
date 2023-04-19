@@ -3,6 +3,8 @@ const UserError = require('../model/errors/UserError')
 const ReputationEnum = require('../model/enums/reputation')
 const { describe, expect, test } = require('@jest/globals')
 
+process.env.PASS_TEST = 'AnyPassword1!'
+
 describe('User model tests', () => {
   describe(('User name validation tests'), () => {
     test('Should return an error when numbers are used in name', () => {
@@ -133,7 +135,7 @@ describe('User model tests', () => {
       const user = User.anyUserWithSpecificKey('criptoAdress', '123456789')
       const validatedUser = () => User.validateUser(user)
 
-      expect(validatedUser).toThrow(UserError)
+      expect(validatedUser).toThrow('The cripto adress should contain only 8 characters')
     })
   })
 
@@ -179,9 +181,10 @@ const randomUserData = {
   surname: 'Dylan',
   email: 'bobdylan@gmail.com',
   adress: 'Calle falsa 123',
-  password: 'Aa1234567!',
+  password: process.env.PASS_TEST,
   cvu: '1234567890123456789012',
   criptoAdress: '12345678'
 }
+
 const anyUser = new User(randomUserData)
 const anyUserFunction = () => new User(randomUserData)

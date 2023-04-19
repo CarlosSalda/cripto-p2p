@@ -196,7 +196,7 @@ const randomUserData = {
   surname: 'Dylan',
   email: 'bobdylan@gmail.com',
   adress: 'Calle falsa 123',
-  password: 'Aa1234567!',
+  password: process.env.PASS_TEST,
   cvu: '1234567890123456789012',
   criptoAdress: '12345678'
 }

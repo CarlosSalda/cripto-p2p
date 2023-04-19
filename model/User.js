@@ -1,5 +1,7 @@
 const UserError = require('./errors/UserError')
 const ReputationEnum = require('./enums/reputation')
+process.env.PASS_TEST = 'AnyPassword1!'
+const passwordEnv = process.env.PASS_TEST
 class User {
   constructor ({ name, surname, email, adress, password, cvu, criptoAdress }) {
     this.name = name
@@ -19,7 +21,7 @@ class User {
       surname: 'Any surname',
       email: 'anymail@gmail.com',
       adress: 'anyadresss',
-      password: 'AnyPassword1!',
+      password: passwordEnv,
       cvu: '1234567890123456789012',
       criptoAdress: '12345678'
     })
@@ -77,7 +79,7 @@ const regexMayusMinus = /^(?=.*[a-z])(?=.*[A-Z])/
 const regexString = /^[A-Za-z\s-]+$/
 const regexSpecial = /^(?=.*[!@#$%^&*_-])/
 // const regexEmail = /^(([^<>()[\]\\.,:\s@"]+(\.[^<>()[\]\\.,:\s@"]+)*)|(".+"))@((\[\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+const regexEmail = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/i
 const regexlength = (start, end) => {
   return new RegExp('^(?=.{' + start + ',' + end + '}$)')
 }
