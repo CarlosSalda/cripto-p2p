@@ -87,7 +87,7 @@ class Transaction {
   }
 
   getAction () {
-    return this.address
+    return this.action
   }
 
   setBuyOperation () {
