@@ -1,4 +1,5 @@
 const intentionModel = require('../model/Intention')
+const INTENTIKONS_TYPE = require('../model/enums/intentions')
 const SystemError = require('../model/errors/SystemError')
 const System = require('../model/System')
 const { describe, expect, test } = require('@jest/globals')
@@ -93,7 +94,6 @@ describe('Intention model tests', () => {
     test('Should return an intention when all the fields are correct', () => {
       const intention = anyIntentionObject()
       const validatedIntention = intentionModel.Intention.validateIntention(intention)
-
       expect(validatedIntention).toBeInstanceOf(intentionModel.Intention)
       expect(validatedIntention.userData).toBe(intention.userData)
     })
@@ -141,7 +141,7 @@ const anyIntentionObject = () => {
     valueCripto: 5,
     amountPesos: 5000,
     userData: 'Pedro Gomez',
-    type: 'SELL'
+    type: INTENTIKONS_TYPE.SELL
   }
 }
 
