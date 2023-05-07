@@ -11,6 +11,7 @@ class Intention {
       throw new Error('Type of transaction must be Compra or Venta')
     }
 
+    this.datetime = new Date()
     this.criptoName = criptoName
     this.amountCripto = amountCripto
     this.valueCripto = valueCripto
