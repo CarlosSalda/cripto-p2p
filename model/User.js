@@ -3,7 +3,7 @@ const ReputationEnum = require('./enums/reputation')
 process.env.PASS_TEST = 'AnyPassword1!'
 const passwordEnv = process.env.PASS_TEST
 class User {
-  constructor ({ name, surname, email, adress, password, cvu, criptoAdress }) {
+  constructor ({ name, surname, email, adress, password, cvu, criptoAdress, totalOperations, completedOperations }) {
     this.name = name
     this.surname = surname
     this.email = email
@@ -11,8 +11,8 @@ class User {
     this.password = password
     this.cvu = cvu
     this.criptoAdress = criptoAdress
-    this.totalOperations = 0
-    this.completedOperations = 0
+    this.totalOperations = totalOperations !== undefined ? totalOperations : 0
+    this.completedOperations = completedOperations !== undefined ? completedOperations : 0
   }
 
   static anyUserWithSpecificKey (key, value) {
