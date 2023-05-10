@@ -9,7 +9,6 @@ const createIntention = async (req, res) => {
   try {
     const intention = new intentionModel.Intention(req.body, system)
     await intentionSchema.create(intention)
-    
 
     res.status(201).send('Intention created')
   } catch (error) {
