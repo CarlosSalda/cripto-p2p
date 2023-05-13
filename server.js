@@ -8,9 +8,14 @@ const cors = require('cors')
 const swaggerUi = require('swagger-ui-express')
 const swaggerDocument = require('./swagger/swagger.json')
 
+const sampleDataSet = require('./test/dataset/test-dataset')
+
 const corsOptions = {
   origin: process.env.BASE_URL
 }
+
+// Sample dataset
+if (process.env.ENVIRONMENT === 'development') sampleDataSet.init()
 
 // Api
 app.use(express.urlencoded({ extended: true }))
@@ -31,3 +36,4 @@ app.use('/api', apiRoutes)
 // app.listen(PORT, console.log(`App is running in ${process.env.NODE_ENV} mode on port ${PORT}`))
 const port = process.env.PORT || 3000
 app.listen(port)
+console.log('App listening in port ' + port)

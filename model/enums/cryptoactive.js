@@ -1,5 +1,5 @@
 module.exports = {
   USDT: 'USDT',
-  USDC: 'USDT',
+  USDC: 'USDC',
   SOLANA: 'Solana'
 }
