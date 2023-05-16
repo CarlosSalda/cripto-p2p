@@ -16,7 +16,7 @@ const addIntentions = async () => {
       amountCripto: RandomData.number(5, 500),
       valueCripto: RandomData.number(0.5, 12.5),
       amountPesos: RandomData.number(100, 9999),
-      userData: RandomData.name(),
+      userData: RandomData.fullname(),
       userEmail: RandomData.email(),
       type: RandomData.intentionType()
     }))
@@ -26,11 +26,24 @@ const addIntentions = async () => {
 }
 
 const addOperations = () => {
-  
+
 }
 
-const addUsers = () => {
- 
+const addUsers = async () => {
+  for (let i = 0; i < 10; i++) {
+    await userSchema.create(new User({
+      name: RandomData.firstName(),
+      surname: RandomData.lastName(),
+      email: RandomData.email(),
+      adress: RandomData.address(),
+      cvu: RandomData.number(10000000, 99999999),
+      criptoAdress: RandomData.cryptoAddress(),
+      totalOperations: RandomData.number(20, 22), // TODO: replace with real operations data??
+      completedOperations: RandomData.number(0, 20)
+    }))
+
+    console.log('sample user added')
+  }
 }
 
 const init = () => {

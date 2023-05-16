@@ -11,7 +11,9 @@ const criptoName = () => {
   return CRIPTO_NAMES[keys[index]]
 }
 
-const name = () => {
+const fullname = () => firstName() + ' ' + lastName()
+
+const firstName = () => {
   const names = [
     'Marcelo',
     'Jose',
@@ -21,6 +23,11 @@ const name = () => {
     'Horacio'
   ]
 
+  const index = number(0, names.length)
+  return names[index]
+}
+
+const lastName = () => {
   const lastnames = [
     'Gomez',
     'Borghi',
@@ -30,9 +37,8 @@ const name = () => {
     'Williams'
   ]
 
-  const index1 = number(0, names.length)
-  const index2 = number(0, lastnames.length)
-  return names[index1] + ' ' + lastnames[index2]
+  const index = number(0, lastnames.length)
+  return lastnames[index]
 }
 
 const email = () => {
@@ -75,10 +81,36 @@ const intentionType = () => {
   return isBuy ? INTENTION_TYPE.BUY : INTENTION_TYPE.SELL
 }
 
+const address = () => {
+  const addresses = [
+    'Calle 123 3322',
+    'Calle falsa 123',
+    'Rodo 232'
+  ]
+
+  const index = number(0, addresses.length)
+  return addresses[index]
+}
+
+const cryptoAddress = () => {
+  const addresses = [
+    '0xasdas21323',
+    '0x212321dsa1',
+    '0x125sad76sd'
+  ]
+
+  const index = number(0, addresses.length)
+  return addresses[index]
+}
+
 module.exports = {
   criptoName,
   number,
-  name,
+  fullname,
+  firstName,
+  lastName,
+  address,
+  cryptoAddress,
   email,
   intentionType
 }

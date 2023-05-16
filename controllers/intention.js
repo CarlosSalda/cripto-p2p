@@ -25,15 +25,19 @@ const getIntentions = async (req, res) => {
       const parsedIntention = new intentionModel.Intention(intention)
 
       const user = await userSchema.findOne({ email: parsedIntention.userEmail }).exec()
+
+      if (!user) continue // to avoid crashes, skip if we don't find the user
+
       const parsedUser = new User(user)
 
       parsedIntention.reputation = parsedUser.getReputation()
+
       response.push(parsedIntention)
     }
 
     res.status(201).send(response)
   } catch (error) {
-    res.status(500).send('Intentions creation: Internal server error: ' + error.message)
+    res.status(500).send('Intentions getting: Internal server error: ' + error.message)
   }
 }
 
