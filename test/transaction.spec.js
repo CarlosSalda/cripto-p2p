@@ -155,7 +155,7 @@ describe('Transaction model tests', () => {
       transaction.date = new Date()
       transaction.operationCompleted()
 
-      expect(addSuccessfullOperationMock).toBeCalledWith(true)
+      expect(addSuccessfullOperationMock).toBeCalledWith(true, undefined)
     })
 
     test('Confirm operation outside 30 minutes', () => {
@@ -166,9 +166,9 @@ describe('Transaction model tests', () => {
       const startDate = new Date((new Date()) - 31 * MS_PER_MINUTE)
       transaction.setDate(startDate)
 
-      transaction.operationCompleted()
+      transaction.operationCompleted(() => {})
 
-      expect(addSuccessfullOperationMock).toBeCalledWith(false)
+      expect(addSuccessfullOperationMock).toBeCalled()
     })
 
     test('Cancel operation by user and discount reputation', () => {

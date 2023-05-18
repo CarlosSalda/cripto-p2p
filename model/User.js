@@ -2,6 +2,7 @@ const UserError = require('./errors/UserError')
 const ReputationEnum = require('./enums/reputation')
 process.env.PASS_TEST = 'AnyPassword1!'
 const passwordEnv = process.env.PASS_TEST
+
 class User {
   constructor ({ name, surname, email, adress, password, cvu, criptoAdress, totalOperations, completedOperations }) {
     this.name = name
@@ -50,15 +51,16 @@ class User {
     return new User(userData)
   }
 
-  addOperationCanceled () {
+  addOperationCanceled (failureCallback) {
     this.totalOperations += 1
-    // TODO
+    failureCallback(this)
   }
 
-  addSuccessfullOperation (quickOperation) {
+  addSuccessfullOperation (quickOperation, successCallback) {
+    if (!quickOperation) return
     this.completedOperations += 1
     this.totalOperations += 1
-    // TODO: add operation in DB
+    successCallback(this)
   }
 
   getCompletedOperations () {
