@@ -4,7 +4,7 @@ const userRoutes = require('./user')
 const welcome = require('./welcome')
 const cotizationRoutes = require('./cotizations')
 const intentionRoutes = require('./intentions')
-const transaction = require('./transaction')
+const transaction = require('./process-transaction')
 const operationRoutes = require('./operations')
 
 router.use(userRoutes)

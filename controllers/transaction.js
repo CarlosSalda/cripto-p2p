@@ -1,24 +1,25 @@
 const mongoose = require('mongoose')
 const transactionSchema = mongoose.model('Transaction')
-const { User } = require('../model/User')
 
 const doTransaction = async (req, res) => {
   try {
     const transactionData = req.body
-    const direction = () => {
-      if (transactionData.action === 'buy') return User.validateCryptoAdress(transactionData.direction)
-      else if (transactionData.action === 'sell') return User.validateCvu(transactionData.direction)
+    if (transactionData.action === 'Cancelar') return res.status(200).send({ message: 'Transaction canceled' })
+    const action = () => {
+      if (transactionData.action === 'Realice la transferencia') return 'Seller'
+      else if (transactionData.action === 'Confirmar recepción') return 'Buyer'
     }
 
-    transactionData.direction = direction()
+    // transactionData.direction = direction()
 
     await transactionSchema.create(transactionData)
 
-    res.status(201).send('Transaction created')
+    res.status(201).send({
+      message: `Transaction created. ${action()}`,
+      direction: action() === 'Seller' ? transactionData.user.cvu : transactionData.user.criptoAdress
+    })
   } catch (error) {
-    if (error.name === 'ValueError') res.status(400).send(`${error.message}`)
-    else if (error.name === 'UserError') res.status(400).send(`${error.message}`)
-    else res.status(500).send('Internal server error')
+    res.status(500).send('Internal server error')
   }
 }
 
