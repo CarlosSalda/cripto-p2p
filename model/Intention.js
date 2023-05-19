@@ -2,7 +2,7 @@ const SystemDiffError = require('./errors/SystemError')
 const INTENTIONS_TYPE = require('./enums/intentions')
 
 class Intention {
-  constructor ({ criptoName, amountCripto, valueCripto, amountPesos, userData, type }, system) {
+  constructor ({ criptoName, amountCripto, valueCripto, amountPesos, userData, userEmail, type }, system) {
     if (system && system.getPercentageDifferenceAgainstMarketValue(amountPesos) > 5) {
       throw new SystemDiffError('Value diff with market value +/- than 5%')
     }
@@ -11,11 +11,13 @@ class Intention {
       throw new Error('Type of transaction must be Compra or Venta')
     }
 
+    this.datetime = new Date()
     this.criptoName = criptoName
     this.amountCripto = amountCripto
     this.valueCripto = valueCripto
     this.amountPesos = amountPesos
     this.userData = userData
+    this.userEmail = userEmail
     this.type = type
     this.system = system
   }

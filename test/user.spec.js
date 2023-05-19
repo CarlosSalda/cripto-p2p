@@ -153,7 +153,7 @@ describe('User model tests', () => {
       const user = anyUserFunction()
       const expectedReputation = 1
 
-      user.addSuccessfullOperation()
+      user.addSuccessfullOperation(true, () => {})
 
       expect(user.getReputation()).toBe(expectedReputation.toString())
     })
@@ -168,8 +168,8 @@ describe('User model tests', () => {
       const user = anyUserFunction()
       const expectedReputation = 0.5
 
-      user.addSuccessfullOperation()
-      user.addOperationCanceled()
+      user.addSuccessfullOperation(true, () => {})
+      user.addOperationCanceled(() => {})
 
       expect(user.getReputation()).toBe(expectedReputation.toString())
     })

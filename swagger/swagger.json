@@ -150,6 +150,74 @@
           }
         }
       }
+    },
+    "/intentions": {
+      "post": {
+        "summary": "Create a Buy / Sell intention",
+        "description": "Create a Buy / Sell intention",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Intention parameters",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "criptoName": {
+                  "type": "string",
+                  "example": "USDT"
+                },
+                "amountCripto": {
+                  "type": "number",
+                  "example": 200
+                },
+                "valueCripto": {
+                  "type": "number",
+                  "example": 1.05
+                },
+                "amountPesos": {
+                  "type": "number",
+                  "example": 7500
+                },
+                "userData": {
+                  "type": "string",
+                  "description": "The username",
+                  "example": "John Doe"
+                },
+                "type": {
+                  "type": "string",
+                  "description": "Compra / Venta",
+                  "enum": ["Compra", "Venta"],
+                  "example": "Compra"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Intention created"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "get": {
+        "description": "Get a list of all BUY / SELL intentions",
+        "responses": {
+          "200": {
+            "description": "a list of all intentions"
+          }
+        }
+      }
     }
   }
 }

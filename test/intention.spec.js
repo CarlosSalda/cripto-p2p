@@ -129,7 +129,7 @@ describe('Intention model tests', () => {
       const intention = anyWellCreatedIntention(system)
       intention.setAmountPesos(50)
 
-      expect(() => intention.confirmIntention()).toThrow(SystemError)
+      expect(() => intention.confirmIntention(system)).toThrow(SystemError)
     })
   })
 })

@@ -110,10 +110,10 @@ class Transaction {
     // cancel operation
   }
 
-  operationCompleted () {
+  operationCompleted (callback) {
     const quickOperation = this.betweenRegularTime(this.date, new Date())
 
-    this.user.addSuccessfullOperation(quickOperation)
+    this.user.addSuccessfullOperation(quickOperation, callback)
   }
 
   betweenRegularTime (startDate, currentDate) {
