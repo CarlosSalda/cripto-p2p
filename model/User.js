@@ -29,6 +29,20 @@ class User {
     return user
   }
 
+  static validateCvu = (cvu) => {
+    const trimmed = cvu.trim()
+    if (trimmed.length !== 22) throw new UserError('The CVU should contain only 22 characters')
+
+    return trimmed
+  }
+
+  static validateCripto = (criptoAdress) => {
+    const trimmed = criptoAdress.trim()
+    if (trimmed.length !== 8) throw new UserError('The cripto adress should contain only 8 characters')
+
+    return trimmed
+  }
+
   static validateUser = (user) => {
     const validatedName = validateName(user.name, 'name')
     const validatedSurname = validateName(user.surname, 'surname')

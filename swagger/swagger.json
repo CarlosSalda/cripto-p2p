@@ -78,6 +78,69 @@
         }
       }
     },
+    "/transaction": {
+      "post": {
+        "summary": "Create a transaction",
+        "description": "Create a transaction",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "transaction parameters",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "cryptoActive": {
+                  "type": "string"
+                },
+                "nominalAmount": {
+                  "type": "number"
+                },
+                "cotization": {
+                  "type": "number"
+                },
+                "operationValue": {
+                  "type": "number"
+                },
+                "fullNameUser": {
+                  "type": "string"
+                },
+                "operationAmount": {
+                  "type": "number"
+                },
+                "reputation": {
+                  "type": "number"
+                },
+                "action": {
+                  "type": "string"
+                },
+                "type": {
+                  "type": "string"
+                },
+                "direction": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+         "responses": {
+          "201": {
+            "description": "Transaction created"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
     "/cotizations": {
       "get": {
         "description": "Get most famous crypto-currencies prices",
