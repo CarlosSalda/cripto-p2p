@@ -4,7 +4,6 @@ const transactionSchema = mongoose.model('Transaction')
 const userSchema = mongoose.model('User')
 
 const { Intention } = require('../../model/Intention')
-const Transaction = require('../../model/Transaction')
 const { User } = require('../../model/User')
 
 const RandomData = require('./random-data')
@@ -33,11 +32,13 @@ const addTransactions = async () => {
       cotization: RandomData.number(0.5, 12.5),
       operationValue: RandomData.number(100, 9999),
       fullNameUser: RandomData.fullname(),
+      email: RandomData.email(),
       operationAmount: RandomData.number(5, 500),
       reputation: RandomData.number(0.1, 1),
       action: 'sell', // TODO: replace with real data?? 'sell' or 'buy
       type: RandomData.intentionType(),
-      direction: 'buy'
+      direction: 'buy',
+      datetime: RandomData.date()
     })
 
     console.log('sample transaction added')

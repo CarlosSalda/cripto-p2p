@@ -23,6 +23,21 @@ const doTransaction = async (req, res) => {
   }
 }
 
+const getTransactions = async (req, res) => {
+  try {
+    const user = req.query.user
+
+    const ltDate = req.query.ltDate ? new Date(req.query.ltDate) : new Date()
+    const gtDate = req.query.gtDate ? new Date(req.query.gtDate) : new Date(0)
+    const transactions = await transactionSchema.find({ email: user, datetime: { $lte: ltDate, $gte: gtDate } })
+
+    res.status(201).send(transactions)
+  } catch (error) {
+    res.status(500).send('Transactions: Internal server error ' + error.message)
+  }
+}
+
 module.exports = {
-  doTransaction
+  doTransaction,
+  getTransactions
 }

@@ -7,11 +7,13 @@ const transactionSchema = new Schema({
   cotization: Number,
   operationValue: Number,
   fullNameUser: String,
+  email: String,
   operationAmount: Number,
   reputation: Number,
   action: String,
   type: String,
-  direction: String
+  direction: String,
+  datetime: Date
 })
 
 mongoose.model('Transaction', transactionSchema, 'Transactions')

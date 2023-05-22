@@ -106,6 +106,18 @@ const cryptoAddress = () => {
   return addresses[index]
 }
 
+const date = () => {
+  const dates = [
+    '2023-05-20T00:00:00.000Z',
+    '2023-05-21T00:00:00.000Z',
+    '2023-05-22T00:00:00.000Z',
+    '2023-05-23T00:00:00.000Z'
+  ]
+  const randomIndex = number(0, dates.length)
+
+  return dates[randomIndex]
+}
+
 module.exports = {
   criptoName,
   number,
@@ -116,5 +128,6 @@ module.exports = {
   cryptoAddress,
   email,
   intentionType,
-  user
+  user,
+  date
 }
