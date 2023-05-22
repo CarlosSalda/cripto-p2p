@@ -1,3 +1,4 @@
+const { User } = require('../../model/User')
 const CRIPTO_NAMES = require('../../model/enums/cryptoactive')
 const INTENTION_TYPE = require('../../model/enums/intentions')
 
@@ -12,6 +13,8 @@ const criptoName = () => {
 }
 
 const fullname = () => firstName() + ' ' + lastName()
+
+const user = () => new User({ name: firstName(), surname: lastName(), email: email(), adress: address(), cvu: number(10000000, 99999999), criptoAdress: cryptoAddress(), totalOperations: number(20, 22), completedOperations: number(0, 20) })
 
 const firstName = () => {
   const names = [
@@ -112,5 +115,6 @@ module.exports = {
   address,
   cryptoAddress,
   email,
-  intentionType
+  intentionType,
+  user
 }

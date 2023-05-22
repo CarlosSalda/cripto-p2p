@@ -2,7 +2,7 @@ const ValueError = require('./errors/PriceError')
 const Intentions = require('./enums/intentions')
 
 class Transaction {
-  constructor (cryptoactive, nominalAmount, cotization, operationValue, user, operationAmount, reputation, action, type) {
+  constructor (cryptoactive, nominalAmount, cotization, operationValue, user, operationAmount, reputation, action, type, date) {
     this.cryptoactive = cryptoactive
     this.nominalAmount = nominalAmount
     this.cotization = cotization

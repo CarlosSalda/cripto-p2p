@@ -1,10 +1,10 @@
 const mongoose = require('mongoose')
 const intentionSchema = mongoose.model('Intention')
-const operationSchema = mongoose.model('Operations')
+const transactionSchema = mongoose.model('Transaction')
 const userSchema = mongoose.model('User')
 
 const { Intention } = require('../../model/Intention')
-const Operation = require('../../model/Operation')
+const Transaction = require('../../model/Transaction')
 const { User } = require('../../model/User')
 
 const RandomData = require('./random-data')
@@ -25,8 +25,23 @@ const addIntentions = async () => {
   }
 }
 
-const addOperations = () => {
+const addTransactions = async () => {
+  for (let i = 0; i < 10; i++) {
+    await transactionSchema.create({
+      cryptoActive: RandomData.criptoName(),
+      nominalAmount: RandomData.number(5, 500),
+      cotization: RandomData.number(0.5, 12.5),
+      operationValue: RandomData.number(100, 9999),
+      fullNameUser: RandomData.fullname(),
+      operationAmount: RandomData.number(5, 500),
+      reputation: RandomData.number(0.1, 1),
+      action: 'sell', // TODO: replace with real data?? 'sell' or 'buy
+      type: RandomData.intentionType(),
+      direction: 'buy'
+    })
 
+    console.log('sample transaction added')
+  }
 }
 
 const addUsers = async () => {
@@ -48,7 +63,7 @@ const addUsers = async () => {
 
 const init = () => {
   addIntentions()
-  addOperations()
+  addTransactions()
   addUsers()
 }
 
