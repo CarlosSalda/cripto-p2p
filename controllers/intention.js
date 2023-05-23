@@ -19,13 +19,14 @@ const createIntention = async (req, res) => {
 const getIntentions = async (req, res) => {
   try {
     const intentions = await intentionSchema.find({})
+    const users = await userSchema.find({})
+
     const response = []
 
     for (const intention of intentions) {
       const parsedIntention = new intentionModel.Intention(intention)
 
-      const user = await userSchema.findOne({ email: parsedIntention.userEmail }).exec()
-
+      const user = getUserReputation(users, parsedIntention.userEmail)
       if (!user) continue // to avoid crashes, skip if we don't find the user
 
       const parsedUser = new User(user)
@@ -35,9 +36,16 @@ const getIntentions = async (req, res) => {
       response.push(parsedIntention)
     }
 
-    res.status(201).send(response)
+    res.status(200).send(response)
   } catch (error) {
     res.status(500).send('Intentions getting: Internal server error: ' + error.message)
+  }
+}
+
+const getUserReputation = (users, email) => {
+  for (const user of users) {
+    console.log('user', user, 'target email', email)
+    if (user.email === email) return user
   }
 }
 
