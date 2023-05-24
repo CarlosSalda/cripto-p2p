@@ -1,0 +1,16 @@
+module.exports = [
+  'ALICEUSDT',
+  'MATICUSDT',
+  'AXSUSDT',
+  'AAVEUSDT',
+  'ATOMUSDT',
+  'NEOUSDT',
+  'DOTUSDT',
+  'ETHUSDT',
+  'CAKEUSDT',
+  'BTCUSDT',
+  'BNBUSDT',
+  'ADAUSDT',
+  'TRXUSDT',
+  'AUDIOUSDT'
+]

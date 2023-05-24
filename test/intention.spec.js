@@ -1,4 +1,5 @@
 const intentionModel = require('../model/Intention')
+const INTENTIKONS_TYPE = require('../model/enums/intentions')
 const SystemError = require('../model/errors/SystemError')
 const System = require('../model/System')
 const { describe, expect, test } = require('@jest/globals')
@@ -87,13 +88,18 @@ describe('Intention model tests', () => {
 
       expect(validatedIntention.error).toBe('The type must be only BUY or SELL')
     })
+
+    test('Should return an error when the type is not BUY or SELL in intentions', () => {
+      const intention = () => anyErrorIntention(9995)
+
+      expect(intention).toThrow('Type of transaction must be Compra or Venta')
+    })
   })
 
   describe(('Intention creation'), () => {
     test('Should return an intention when all the fields are correct', () => {
       const intention = anyIntentionObject()
       const validatedIntention = intentionModel.Intention.validateIntention(intention)
-
       expect(validatedIntention).toBeInstanceOf(intentionModel.Intention)
       expect(validatedIntention.userData).toBe(intention.userData)
     })
@@ -129,7 +135,7 @@ describe('Intention model tests', () => {
       const intention = anyWellCreatedIntention(system)
       intention.setAmountPesos(50)
 
-      expect(() => intention.confirmIntention()).toThrow(SystemError)
+      expect(() => intention.confirmIntention(system)).toThrow(SystemError)
     })
   })
 })
@@ -141,8 +147,26 @@ const anyIntentionObject = () => {
     valueCripto: 5,
     amountPesos: 5000,
     userData: 'Pedro Gomez',
-    type: 'SELL'
+    type: INTENTIKONS_TYPE.SELL
   }
+}
+
+const errorIntentionObject = () => {
+  return {
+    criptoName: 'CAKEUSDT',
+    amountCripto: 1000,
+    valueCripto: 5,
+    amountPesos: 5000,
+    userData: 'Pedro Gomez',
+    type: 123
+  }
+}
+
+const anyErrorIntention = (value) => {
+  const intentionData = errorIntentionObject()
+  intentionData.amountPesos = value
+  const intention = new intentionModel.Intention(intentionData, new System())
+  return intention
 }
 
 const anyIntention = (value) => {

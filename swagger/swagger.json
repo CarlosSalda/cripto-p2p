@@ -1,0 +1,223 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Cripto-p2p"
+  },
+  "basePath": "/api",
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "paths": {
+    "/": {
+      "get": {
+        "description": "Welcome",
+        "responses": {
+          "200": {
+            "description": "Welcome to Cripto-p2p"
+          }
+        }
+      }
+    },
+    "/register": {
+      "post": {
+        "summary": "Register a user",
+        "description": "Register a user",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "register parameters",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "surname": {
+                  "type": "string"
+                },
+                "email": {
+                  "type": "string",
+                  "format": "email"
+                },
+                "adress": {
+                  "type": "string"
+                },
+                "password": {
+                  "type": "string",
+                  "pattern": "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$"
+                },
+                "cvu": {
+                  "type": "string",
+                  "pattern": "^[0-9]{22}$"
+                },
+                "criptoAdress": {
+                  "type": "string",
+                  "pattern": "^[0-9]{8}$"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "User created"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/transaction": {
+      "post": {
+        "summary": "Create a transaction",
+        "description": "Create a transaction",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "transaction parameters",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "cryptoActive": {
+                  "type": "string"
+                },
+                "nominalAmount": {
+                  "type": "number"
+                },
+                "cotization": {
+                  "type": "number"
+                },
+                "operationValue": {
+                  "type": "number"
+                },
+                "fullNameUser": {
+                  "type": "string"
+                },
+                "operationAmount": {
+                  "type": "number"
+                },
+                "reputation": {
+                  "type": "number"
+                },
+                "action": {
+                  "type": "string"
+                },
+                "type": {
+                  "type": "string"
+                },
+                "direction": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        ],
+         "responses": {
+          "201": {
+            "description": "Transaction created"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/cotizations": {
+      "get": {
+        "description": "Get most famous crypto-currencies prices",
+        "responses": {
+          "200": {
+            "description": "Welcome to Cripto-p2p"
+          }
+        }
+      }
+    },
+    "/intentions": {
+      "post": {
+        "summary": "Create a Buy / Sell intention",
+        "description": "Create a Buy / Sell intention",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Intention parameters",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "criptoName": {
+                  "type": "string",
+                  "example": "USDT"
+                },
+                "amountCripto": {
+                  "type": "number",
+                  "example": 200
+                },
+                "valueCripto": {
+                  "type": "number",
+                  "example": 1.05
+                },
+                "amountPesos": {
+                  "type": "number",
+                  "example": 7500
+                },
+                "userData": {
+                  "type": "string",
+                  "description": "The username",
+                  "example": "John Doe"
+                },
+                "type": {
+                  "type": "string",
+                  "description": "Compra / Venta",
+                  "enum": ["Compra", "Venta"],
+                  "example": "Compra"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Intention created"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "get": {
+        "description": "Get a list of all BUY / SELL intentions",
+        "responses": {
+          "200": {
+            "description": "a list of all intentions"
+          }
+        }
+      }
+    }
+  }
+}

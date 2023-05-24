@@ -8,7 +8,9 @@ const userSchema = new Schema({
   adress: String,
   password: String,
   cvu: String,
-  criptoAdress: String
+  criptoAdress: String,
+  completedOperations: Number,
+  totalOperations: Number
 })
 
 mongoose.model('User', userSchema, 'Users')

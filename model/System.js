@@ -16,4 +16,4 @@ class System {
   }
 }
 
-module.exports = System
+module.exports = new System()

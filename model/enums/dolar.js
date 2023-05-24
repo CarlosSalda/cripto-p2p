@@ -1,4 +1,4 @@
 module.exports = {
-  dolarOficial: 'Dolar Oficial',
-  dolarBlue: 'Dolar Blue'
+  DOLAR_OFICIAL: 'Dolar Oficial',
+  DOLAR_BLUE: 'Dolar Blue'
 }

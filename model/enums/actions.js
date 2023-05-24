@@ -1,5 +1,5 @@
 module.exports = {
-  transferDone: 'Realice la transferencia',
-  rececptionConfirmation: 'Confirmar recepción',
-  Cancel: 'Cancelar'
+  TRANSFER_DONE: 'Realice la transferencia',
+  RECEPTION_CONFIRMATION: 'Confirmar recepción',
+  CANCEL: 'Cancelar'
 }
