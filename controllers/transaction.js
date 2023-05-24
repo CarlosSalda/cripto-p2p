@@ -4,6 +4,19 @@ const transactionSchema = mongoose.model('Transaction')
 const doTransaction = async (req, res) => {
   try {
     const transactionData = req.body
+
+    const stringedData = {
+      cryptoActive: transactionData.cryptoActive.toString(),
+      nominalAmount: transactionData.nominalAmount.toString(),
+      cotization: transactionData.cotization.toString(),
+      operationValue: transactionData.operationValue.toString(),
+      user: JSON.stringify(transactionData.user),
+      operationAmount: transactionData.operationAmount.toString(),
+      reputation: transactionData.reputation.toString(),
+      action: transactionData.action.toString(),
+      type: transactionData.type.toString()
+    }
+
     if (transactionData.action === 'Cancelar') return res.status(200).send({ message: 'Transaction canceled' })
     const action = () => {
       if (transactionData.action === 'Realice la transferencia') return 'Seller'
@@ -12,7 +25,9 @@ const doTransaction = async (req, res) => {
 
     // transactionData.direction = direction()
 
-    await transactionSchema.create(transactionData)
+    stringedData.user = JSON.parse(stringedData.user)
+
+    await transactionSchema.create(stringedData)
 
     res.status(201).send({
       message: `Transaction created. ${action()}`,
@@ -29,7 +44,7 @@ const getTransactions = async (req, res) => {
 
     const ltDate = req.query.ltDate ? new Date(req.query.ltDate) : new Date()
     const gtDate = req.query.gtDate ? new Date(req.query.gtDate) : new Date(0)
-    const transactions = await transactionSchema.find({ email: user, datetime: { $lte: ltDate, $gte: gtDate } })
+    const transactions = await transactionSchema.find({ email: user.toString(), datetime: { $lte: ltDate, $gte: gtDate } })
 
     res.status(201).send(transactions)
   } catch (error) {
