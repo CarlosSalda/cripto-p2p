@@ -8,14 +8,14 @@ const system = require('../model/System')
 const createIntention = async (req, res) => {
   try {
     const intentionData = {
-      datetime: req.body.datetime,
-      cryptoname: req.body.cryptoName,
-      amountCrypto: req.body.amountCrypto,
-      valueCripto: req.body.valueCripto,
-      amountPesos: req.body.amountPesos,
-      userData: req.body.userData,
-      userEmail: req.body.userEmail,
-      type: req.body.type
+      datetime: req.body.datetime.toString(),
+      cryptoname: req.body.cryptoName.toString(),
+      amountCrypto: req.body.amountCrypto.toString(),
+      valueCripto: req.body.valueCripto.toString(),
+      amountPesos: req.body.amountPesos.toString(),
+      userData: req.body.userData.toString(),
+      userEmail: req.body.userEmail.toString(),
+      type: req.body.type.toString()
     }
 
     const isValidIntentionData = (data) => {
@@ -32,6 +32,7 @@ const createIntention = async (req, res) => {
     }
 
     if (isValidIntentionData(intentionData)) {
+      intentionData.datetime = new Date(intentionData.datetime)
       const intention = new intentionModel.Intention(intentionData, system)
 
       await intentionSchema.create(intention)
