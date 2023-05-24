@@ -6,4 +6,15 @@ require('./model/Transaction')
 
 const MONGO_URL = process.env.MONGO_URL
 mongoose.Promise = global.Promise
-mongoose.connect(MONGO_URL)
+
+async function connectToDatabase () {
+  try {
+    await mongoose.connect(MONGO_URL)
+
+    console.log('Connected to MongoDB')
+  } catch (error) {
+    console.error('Failed to connect to MongoDB:', error)
+  }
+}
+
+connectToDatabase()

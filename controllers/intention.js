@@ -7,7 +7,18 @@ const system = require('../model/System')
 
 const createIntention = async (req, res) => {
   try {
-    const intention = new intentionModel.Intention(req.body, system)
+    const intentionData = {
+      datetime: req.body.datetime,
+      cryptoname: req.body.cryptoName,
+      amountCrypto: req.body.amountCrypto,
+      valueCripto: req.body.valueCripto,
+      amountPesos: req.body.amountPesos,
+      userData: req.body.userData,
+      userEmail: req.body.userEmail,
+      type: req.body.type
+    }
+    const intention = new intentionModel.Intention(intentionData, system)
+
     await intentionSchema.create(intention)
 
     res.status(201).send('Intention created')

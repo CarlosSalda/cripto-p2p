@@ -62,10 +62,14 @@ const addUsers = async () => {
   }
 }
 
-const init = () => {
-  addIntentions()
-  addTransactions()
-  addUsers()
+const init = async () => {
+  try {
+    await addIntentions()
+    await addTransactions()
+    await addUsers()
+  } catch (error) {
+    console.error('Initialization error:', error)
+  }
 }
 
 module.exports = {

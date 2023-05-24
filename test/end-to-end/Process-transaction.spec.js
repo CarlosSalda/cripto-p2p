@@ -48,13 +48,5 @@ describe('Transaction Process model tests', () => {
       expect(response.status).toBe(200)
       expect(response.data.message).toBe('Transaction canceled')
     })
-
-    // test('Should return 400 when transaction is not valid', async () => {
-    //   const changeTransaction = buyerTransaction()
-    //   changeTransaction.cryptoAmount = -1
-    //   const response = await axios.post('http://localhost:3000/api/transaction', )
-
-    //   expect(response.status).toBe(400)
-    // })
   })
 })

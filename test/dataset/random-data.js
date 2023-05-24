@@ -3,6 +3,14 @@ const CRIPTO_NAMES = require('../../model/enums/cryptoactive')
 const INTENTION_TYPE = require('../../model/enums/intentions')
 
 const number = (min, max) => {
+  if (min >= max) {
+    throw new Error('min must be less than max')
+  }
+
+  if (typeof min !== 'number' || typeof max !== 'number') {
+    throw new Error('min and max must be numeric values')
+  }
+
   return Math.floor(Math.random() * (max - min)) + min
 }
 
