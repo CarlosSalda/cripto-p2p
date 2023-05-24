@@ -1,40 +1,59 @@
 const mongoose = require('mongoose')
 const transactionSchema = mongoose.model('Transaction')
+const userSchema = mongoose.model('User')
+// const Transaction = require('../model/Transaction')
+const ReputationEnum = require('../model/enums/reputation')
+
+const getUserData = async (email, res) => {
+  try {
+    const user = await userSchema.findOne({ email: email.toString() })
+
+    return user
+  } catch (error) {
+    res.status(500).send('Transaction creation: Internal server error: ' + error.message)
+  }
+}
+
+const getReputation = (user) => {
+  if (user.totalOperations === 0) return ReputationEnum.NO_OPERATIONS_YET
+
+  return (user.completedOperations / user.totalOperations).toString()
+}
 
 const doTransaction = async (req, res) => {
   try {
     const transactionData = req.body
+    const user = await getUserData(transactionData.userEmail, res)
 
-    const stringedData = {
+    let stringedData = {
       cryptoActive: transactionData.cryptoActive.toString(),
-      nominalAmount: transactionData.nominalAmount.toString(),
-      cotization: transactionData.cotization.toString(),
-      operationValue: transactionData.operationValue.toString(),
-      user: JSON.stringify(transactionData.user),
-      operationAmount: transactionData.operationAmount.toString(),
-      reputation: transactionData.reputation.toString(),
+      nominalAmount: parseInt(transactionData.nominalAmount.toString()),
+      cotization: parseInt(transactionData.cotization.toString()),
+      operationValue: parseInt(transactionData.operationValue.toString()),
+      operationAmount: parseInt(transactionData.operationAmount.toString()),
       action: transactionData.action.toString(),
       type: transactionData.type.toString()
     }
 
-    if (transactionData.action === 'Cancelar') return res.status(200).send({ message: 'Transaction canceled' })
+    // const transaction = new Transaction(stringedData.cryptoActive, stringedData.nominalAmount, stringedData.cotization, stringedData.operationValue, user, stringedData.operationAmount, getReputation(user), stringedData.action, stringedData.type)
+
+    if (stringedData.action === 'Cancelar') return res.status(200).send({ message: 'Transaction canceled' })
+
     const action = () => {
-      if (transactionData.action === 'Realice la transferencia') return 'Seller'
-      else if (transactionData.action === 'Confirmar recepción') return 'Buyer'
+      if (stringedData.action === 'Realice la transferencia') return 'Seller'
+      else if (stringedData.action === 'Confirmar recepción') return 'Buyer'
     }
 
-    // transactionData.direction = direction()
-
-    stringedData.user = JSON.parse(stringedData.user)
+    stringedData = { ...stringedData, user: user, reputation: getReputation(user) }
 
     await transactionSchema.create(stringedData)
 
     res.status(201).send({
       message: `Transaction created. ${action()}`,
-      direction: action() === 'Seller' ? transactionData.user.cvu : transactionData.user.criptoAdress
+      direction: action() === 'Seller' ? stringedData.user.cvu : stringedData.user.criptoAdress
     })
   } catch (error) {
-    res.status(500).send('Internal server error')
+    res.status(500).send('Internal server error:' + error)
   }
 }
 

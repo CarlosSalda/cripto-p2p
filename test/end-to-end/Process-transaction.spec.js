@@ -1,33 +1,59 @@
-// const mongoose = require('mongoose')
-// const { Schema } = mongoose
 const { describe, expect, test } = require('@jest/globals')
 const EnumsAction = require('../../model/enums/actions')
 const Enums = require('../../model/enums/cryptoactive')
-const Transaction = require('../../model/Transaction')
+const Intentions = require('../../model/enums/intentions')
+// const Transaction = require('../../model/Transaction')
 // const request = require('supertest')
 const axios = require('axios')
 
 const sellerRandomData = {
-  name: 'Bob',
-  surname: 'Dylan',
-  cvu: '1234567890123456789012',
-  criptoAdress: '12345678'
+  email: 'RandomMailWorld@outlook.com',
+  cvu: '77485263'
 }
-
-const sellerTransaction = () => new Transaction(Enums.USDT, 50, 20, 10, sellerRandomData, 100, 5, EnumsAction.TRANSFER_DONE, true)
-const buyerTransaction = () => new Transaction(Enums.USDT, 50, 20, 10, buyerRandomData, 100, 5, EnumsAction.RECEPTION_CONFIRMATION, false)
-const cancelTransaction = () => new Transaction(Enums.USDT, 50, 20, 10, buyerRandomData, 100, 5, EnumsAction.CANCEL, false)
 
 const buyerRandomData = {
-  name: 'Bob2',
-  surname: 'Dylan2',
-  cvu: '1234567890123456781112',
-  criptoAdress: '87654321'
+  email: 'RandomMailhelloeveryone@outlook.com',
+  criptoAdress: '0xasdas21323'
 }
+
+const dataSellerTransaction = {
+  cryptoActive: Enums.USDT,
+  nominalAmount: 50,
+  cotization: 20,
+  operationValue: 10,
+  userEmail: sellerRandomData.email,
+  operationAmount: 100,
+  action: EnumsAction.TRANSFER_DONE,
+  type: Intentions.SELL
+}
+
+const dataBuyerTransaction = {
+  cryptoActive: Enums.USDT,
+  nominalAmount: 50,
+  cotization: 20,
+  operationValue: 10,
+  userEmail: buyerRandomData.email,
+  operationAmount: 100,
+  action: EnumsAction.RECEPTION_CONFIRMATION,
+  type: Intentions.BUY
+}
+
+const dataCancelTransaction = {
+  cryptoActive: Enums.USDT,
+  nominalAmount: 50,
+  cotization: 20,
+  operationValue: 10,
+  userEmail: buyerRandomData.email,
+  operationAmount: 100,
+  action: EnumsAction.CANCEL,
+  type: Intentions.BUY
+}
+
 describe('Transaction Process model tests', () => {
   describe(('Transaction properties'), () => {
     test('Prcess transaction succesfully for seller', async () => {
-      const response = await axios.post('http://localhost:3000/api/transaction', sellerTransaction())
+      const response = await axios.post('http://localhost:3000/api/transaction', dataSellerTransaction)
+      console.log(response.data)
 
       expect(response.status).toBe(201)
       expect(response.data.message).toBe('Transaction created. Seller')
@@ -35,7 +61,7 @@ describe('Transaction Process model tests', () => {
     })
 
     test('Prcess transaction succesfully for buyer', async () => {
-      const response = await axios.post('http://localhost:3000/api/transaction', buyerTransaction())
+      const response = await axios.post('http://localhost:3000/api/transaction', dataBuyerTransaction)
 
       expect(response.status).toBe(201)
       expect(response.data.message).toBe('Transaction created. Buyer')
@@ -43,7 +69,7 @@ describe('Transaction Process model tests', () => {
     })
 
     test('Cancel transaction succesfully', async () => {
-      const response = await axios.post('http://localhost:3000/api/transaction', cancelTransaction())
+      const response = await axios.post('http://localhost:3000/api/transaction', dataCancelTransaction)
 
       expect(response.status).toBe(200)
       expect(response.data.message).toBe('Transaction canceled')

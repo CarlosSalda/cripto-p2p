@@ -9,6 +9,6 @@ mongoose.Promise = global.Promise
 
 mongoose.connect(MONGO_URL).then(
   console.log('Connected to MongoDB')
-).catch(
-  console.error('Failed to connect to MongoDB:')
-)
+).catch((error) => {
+  console.log(error)
+})
