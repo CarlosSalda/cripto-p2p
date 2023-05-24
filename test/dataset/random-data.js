@@ -1,6 +1,7 @@
 const { User } = require('../../model/User')
 const CRIPTO_NAMES = require('../../model/enums/cryptoactive')
 const INTENTION_TYPE = require('../../model/enums/intentions')
+const crypto = require('crypto')
 
 const number = (min, max) => {
   if (min >= max) {
@@ -11,7 +12,17 @@ const number = (min, max) => {
     throw new Error('min and max must be numeric values')
   }
 
-  return Math.floor(Math.random() * (max - min)) + min
+  const getRandomNumber = (min, max) => {
+    const range = max - min + 1
+    const randomBytes = crypto.randomBytes(4)
+    const randomNumber = Math.floor(
+      randomBytes.readUInt32BE(0) / (Math.pow(2, 32) / range)
+    )
+
+    return randomNumber + min
+  }
+
+  return Math.floor(getRandomNumber(0, 1) * (max - min)) + min
 }
 
 const criptoName = () => {

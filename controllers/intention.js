@@ -17,11 +17,29 @@ const createIntention = async (req, res) => {
       userEmail: req.body.userEmail,
       type: req.body.type
     }
-    const intention = new intentionModel.Intention(intentionData, system)
 
-    await intentionSchema.create(intention)
+    const isValidIntentionData = (data) => {
+      return (
+        data.datetime &&
+        data.cryptoname &&
+        data.amountCrypto &&
+        data.valueCripto &&
+        data.amountPesos &&
+        data.userData &&
+        data.userEmail &&
+        data.type
+      )
+    }
 
-    res.status(201).send('Intention created')
+    if (isValidIntentionData(intentionData)) {
+      const intention = new intentionModel.Intention(intentionData, system)
+
+      await intentionSchema.create(intention)
+
+      res.status(201).send('Intention created')
+    } else {
+      res.status(500).send('Intentions creation: Internal server error: ' + 'invalid Data from Intention')
+    }
   } catch (error) {
     res.status(500).send('Intentions creation: Internal server error: ' + error.message)
   }
