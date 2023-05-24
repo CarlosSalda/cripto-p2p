@@ -109,7 +109,7 @@ describe('User model tests', () => {
 
   describe(('User CVU validation tests'), () => {
     test('Should return an error when the cvu is shorter than 22 characters', () => {
-      const user = User.anyUserWithSpecificKey('cvu', '1234567')
+      const user = User.anyUserWithSpecificKey('cvu', '1234 567 ')
       const validatedUser = () => User.validateUser(user)
 
       expect(validatedUser).toThrow(UserError)
@@ -117,6 +117,13 @@ describe('User model tests', () => {
 
     test('Should return an error when the cvu is longer than 22 characters', () => {
       const user = User.anyUserWithSpecificKey('cvu', '123456789012345678901234567890')
+      const validatedUser = () => User.validateUser(user)
+
+      expect(validatedUser).toThrow(UserError)
+    })
+
+    test('Should return an error when the cvu is shorter than 22 characters', () => {
+      const user = User.anyUserWithSpecificKey('cvu', '      1   ')
       const validatedUser = () => User.validateUser(user)
 
       expect(validatedUser).toThrow(UserError)
@@ -174,6 +181,25 @@ describe('User model tests', () => {
       expect(user.getReputation()).toBe(expectedReputation.toString())
     })
   })
+
+  describe(('User operations'), () => {
+    test('Get operations equals to 0', () => {
+      const validatedUser = User.validateUser(anyUser)
+
+      expect(validatedUser.getCompletedOperations()).toBe(0)
+      expect(validatedUser.getTotalOperations()).toBe(0)
+    })
+
+    // test('Get operations equals to 1', () => {
+    //   const validatedUser = User.validateUser(anyUser)
+
+    //   const test = validatedUser.addSuccessfullOperation(false, () => {})
+
+    //   console.log(test)
+    //   expect(validatedUser.getCompletedOperations()).toBe(1)
+    //   expect(validatedUser.getTotalOperations()).toBe(1)
+    // })
+  })
 })
 
 const randomUserData = {
@@ -183,7 +209,9 @@ const randomUserData = {
   adress: 'Calle falsa 123',
   password: process.env.PASS_TEST,
   cvu: '1234567890123456789012',
-  criptoAdress: '12345678'
+  criptoAdress: '12345678',
+  totalOperations: undefined,
+  completedOperations: undefined
 }
 
 const anyUser = new User(randomUserData)

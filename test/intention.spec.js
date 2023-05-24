@@ -88,6 +88,12 @@ describe('Intention model tests', () => {
 
       expect(validatedIntention.error).toBe('The type must be only BUY or SELL')
     })
+
+    test('Should return an error when the type is not BUY or SELL in intentions', () => {
+      const intention = () => anyErrorIntention(9995)
+
+      expect(intention).toThrow('Type of transaction must be Compra or Venta')
+    })
   })
 
   describe(('Intention creation'), () => {
@@ -143,6 +149,24 @@ const anyIntentionObject = () => {
     userData: 'Pedro Gomez',
     type: INTENTIKONS_TYPE.SELL
   }
+}
+
+const errorIntentionObject = () => {
+  return {
+    criptoName: 'CAKEUSDT',
+    amountCripto: 1000,
+    valueCripto: 5,
+    amountPesos: 5000,
+    userData: 'Pedro Gomez',
+    type: 123
+  }
+}
+
+const anyErrorIntention = (value) => {
+  const intentionData = errorIntentionObject()
+  intentionData.amountPesos = value
+  const intention = new intentionModel.Intention(intentionData, new System())
+  return intention
 }
 
 const anyIntention = (value) => {
