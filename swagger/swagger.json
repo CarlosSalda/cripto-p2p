@@ -22,6 +22,7 @@
     },
     "/register": {
       "post": {
+        "tags": ["Register user"],
         "summary": "Register a user",
         "description": "Register a user",
         "produces": [
@@ -40,29 +41,35 @@
               "type": "object",
               "properties": {
                 "name": {
-                  "type": "string"
+                  "type": "string",
+                  "example": "John"
                 },
                 "surname": {
-                  "type": "string"
+                  "type": "string",
+                  "example": "Cena"
                 },
                 "email": {
                   "type": "string",
-                  "format": "email"
+                  "format": "email",
+                  "example": "user@example.com"
                 },
                 "adress": {
-                  "type": "string"
+                  "type": "string",
+                  "example": "the sample address"
                 },
                 "password": {
                   "type": "string",
-                  "pattern": "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$"
+                  "example": "dqKXVRhx4wiZIPgK9E8ncnxAs#apW6fvKxxU5p8SHbkTkvg2gGSM1rVtY9dXtEpcCHJEmyDwGjkIYKpXStw8puJUobNF84V6I"
                 },
                 "cvu": {
                   "type": "string",
-                  "pattern": "^[0-9]{22}$"
+                  "pattern": "^[0-9]{22}$",
+                  "example": "9789678918522187052125"
                 },
                 "criptoAdress": {
                   "type": "string",
-                  "pattern": "^[0-9]{8}$"
+                  "pattern": "^[0-9]{8}$",
+                  "example": "86822153"
                 }
               }
             }
@@ -80,6 +87,7 @@
     },
     "/transaction": {
       "post": {
+        "tags": ["Transactions"],
         "summary": "Create a transaction",
         "description": "Create a transaction",
         "produces": [
@@ -98,25 +106,36 @@
               "type": "object",
               "properties": {
                 "cryptoActive": {
-                  "type": "string"
+                  "type": "string",
+                  "example": "USDT"
                 },
                 "nominalAmount": {
-                  "type": "number"
+                  "type": "number",
+                  "example": 200
                 },
                 "cotization": {
-                  "type": "number"
+                  "type": "number",
+                  "example": 0
                 },
                 "operationValue": {
-                  "type": "number"
+                  "type": "number",
+                  "example": 7500
                 },
                 "fullNameUser": {
-                  "type": "string"
+                  "type": "string",
+                  "example": "John Doe"
                 },
                 "operationAmount": {
-                  "type": "number"
+                  "type": "number",
+                  "example": 200
+                },
+                "userEmail": {
+                  "type": "email",
+                  "example": "RandomMailhelloeveryone@outlook.com"
                 },
                 "reputation": {
-                  "type": "number"
+                  "type": "number",
+                  "example": 0
                 },
                 "action": {
                   "type": "string"
@@ -143,6 +162,7 @@
     },
     "/cotizations": {
       "get": {
+        "tags": ["Cotizations"],
         "description": "Get most famous crypto-currencies prices",
         "responses": {
           "200": {
@@ -153,6 +173,7 @@
     },
     "/intentions": {
       "post": {
+        "tags": ["Intentions"],
         "summary": "Create a Buy / Sell intention",
         "description": "Create a Buy / Sell intention",
         "produces": [
@@ -170,11 +191,15 @@
             "schema": {
               "type": "object",
               "properties": {
-                "criptoName": {
+                "datetime": {
+                  "type": "datetime",
+                  "example": "2021-10-10 10:10:10"
+                },
+                "cryptoName": {
                   "type": "string",
                   "example": "USDT"
                 },
-                "amountCripto": {
+                "amountCrypto": {
                   "type": "number",
                   "example": 200
                 },
@@ -190,6 +215,10 @@
                   "type": "string",
                   "description": "The username",
                   "example": "John Doe"
+                },
+                "userEmail": {
+                  "type": "string",
+                  "example": "johndoe@gmail.com"
                 },
                 "type": {
                   "type": "string",
@@ -211,6 +240,7 @@
         }
       },
       "get": {
+        "tags": ["Intentions"],
         "description": "Get a list of all BUY / SELL intentions",
         "responses": {
           "200": {

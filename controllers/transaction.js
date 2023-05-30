@@ -59,6 +59,7 @@ const doTransaction = async (req, res) => {
 
 const getTransactions = async (req, res) => {
   try {
+    console.log(req.query.user, req.query.ltDate, req.query.gtDate)
     const user = req.query.user
 
     const ltDate = req.query.ltDate ? new Date(req.query.ltDate) : new Date()

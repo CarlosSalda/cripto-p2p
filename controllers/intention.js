@@ -17,7 +17,6 @@ const createIntention = async (req, res) => {
       userEmail: req.body.userEmail.toString(),
       type: req.body.type.toString()
     }
-
     const isValidIntentionData = (data) => {
       return (
         data.datetime &&
