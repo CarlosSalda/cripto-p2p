@@ -45,7 +45,7 @@ const firstName = () => {
     'Horacio'
   ]
 
-  const index = number(0, names.length)
+  const index = number(0, names.length - 1)
   return names[index]
 }
 
@@ -59,7 +59,7 @@ const lastName = () => {
     'Williams'
   ]
 
-  const index = number(0, lastnames.length)
+  const index = number(0, lastnames.length - 1)
   return lastnames[index]
 }
 
@@ -91,9 +91,9 @@ const email = () => {
     '@binance.com'
   ]
 
-  const index1 = number(0, firstPart.length)
-  const index2 = number(0, secondPart.length)
-  const index3 = number(0, domain.length)
+  const index1 = number(0, firstPart.length - 1)
+  const index2 = number(0, secondPart.length - 1)
+  const index3 = number(0, domain.length - 1)
 
   return firstPart[index1] + secondPart[index2] + domain[index3]
 }
@@ -107,21 +107,22 @@ const address = () => {
   const addresses = [
     'Calle 123 3322',
     'Calle falsa 123',
-    'Rodo 232'
+    'Rodo 232 esq espora'
   ]
 
-  const index = number(0, addresses.length)
+  const index = number(0, addresses.length - 1)
+  console.log('getting address', addresses[index])
   return addresses[index]
 }
 
 const cryptoAddress = () => {
   const addresses = [
-    '0xasdas21323',
-    '0x212321dsa1',
-    '0x125sad76sd'
+    '0xasdas2',
+    '0x212321',
+    '0x125sad'
   ]
 
-  const index = number(0, addresses.length)
+  const index = number(0, addresses.length - 1)
   return addresses[index]
 }
 
@@ -132,7 +133,7 @@ const date = () => {
     '2023-05-22T00:00:00.000Z',
     '2023-05-23T00:00:00.000Z'
   ]
-  const randomIndex = number(0, dates.length)
+  const randomIndex = number(0, dates.length - 1)
 
   return dates[randomIndex]
 }

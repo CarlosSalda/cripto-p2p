@@ -33,7 +33,6 @@ const createIntention = async (req, res) => {
     if (isValidIntentionData(intentionData)) {
       intentionData.datetime = new Date(intentionData.datetime)
       const intention = new intentionModel.Intention(intentionData, system)
-
       await intentionSchema.create(intention)
 
       res.status(201).send('Intention created')

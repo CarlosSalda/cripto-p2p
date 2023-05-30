@@ -6,6 +6,9 @@ const userSchema = mongoose.model('User')
 const { Intention } = require('../../model/Intention')
 const { User } = require('../../model/User')
 
+const intentionController = require('../../controllers/intention')
+const userController = require('../../controllers/User')
+
 const RandomData = require('./random-data')
 
 const addIntentions = async () => {
@@ -47,25 +50,33 @@ const addTransactions = async () => {
 
 const addUsers = async () => {
   for (let i = 0; i < 10; i++) {
-    await userSchema.create(new User({
-      name: RandomData.firstName(),
-      surname: RandomData.lastName(),
-      email: RandomData.email(),
-      adress: RandomData.address(),
-      cvu: RandomData.number(10000000, 99999999),
-      criptoAdress: RandomData.cryptoAddress(),
-      totalOperations: RandomData.number(20, 22), // TODO: replace with real operations data??
-      completedOperations: RandomData.number(0, 20)
-    }))
-
+    await userController.register({
+      body: {
+        name: RandomData.firstName(),
+        surname: RandomData.lastName(),
+        email: RandomData.email(),
+        password: process.env.TEST_USER_PASSWORD,
+        adress: RandomData.address(),
+        cvu: '1234567890123456789012',
+        criptoAdress: RandomData.cryptoAddress(),
+        totalOperations: RandomData.number(20, 22), // TODO: replace with real operations data??
+        completedOperations: RandomData.number(0, 20)
+      }
+    }, {
+      status: () => {
+        return {
+          send: () => {}
+        }
+      }
+    })
     console.log('sample user added')
   }
 }
 
 const init = async () => {
   try {
-    await addIntentions()
-    await addTransactions()
+    //await addIntentions()
+    //await addTransactions()
     await addUsers()
   } catch (error) {
     console.error('Initialization error:', error)
