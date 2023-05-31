@@ -27,7 +27,7 @@ const number = (min, max) => {
 
 const criptoName = () => {
   const keys = Object.keys(CRIPTO_NAMES)
-  const index = number(0, keys.length)
+  const index = number(0, keys.length - 1)
   return CRIPTO_NAMES[keys[index]]
 }
 
@@ -111,7 +111,6 @@ const address = () => {
   ]
 
   const index = number(0, addresses.length - 1)
-  console.log('getting address', addresses[index])
   return addresses[index]
 }
 

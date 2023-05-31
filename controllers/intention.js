@@ -40,6 +40,7 @@ const createIntention = async (req, res) => {
       res.status(500).send('Intentions creation: Internal server error: ' + 'invalid Data from Intention')
     }
   } catch (error) {
+    console.log(error)
     res.status(500).send('Intentions creation: Internal server error: ' + error.message)
   }
 }

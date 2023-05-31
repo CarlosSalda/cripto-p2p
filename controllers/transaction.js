@@ -15,7 +15,7 @@ const getUserData = async (email, res) => {
 }
 
 const getReputation = (user) => {
-  if (user.totalOperations === 0) return ReputationEnum.NO_OPERATIONS_YET
+  if (!user || user.totalOperations === 0) return ReputationEnum.NO_OPERATIONS_YET
 
   return (user.completedOperations / user.totalOperations).toString()
 }
@@ -23,7 +23,7 @@ const getReputation = (user) => {
 const doTransaction = async (req, res) => {
   try {
     const transactionData = req.body
-    const user = await getUserData(transactionData.userEmail, res)
+    const user = req.body.user ? req.body.user : await  getUserData(transactionData.userEmail, res)
 
     let stringedData = {
       cryptoActive: transactionData.cryptoActive.toString(),
@@ -53,6 +53,7 @@ const doTransaction = async (req, res) => {
       direction: action() === 'Seller' ? stringedData.user.cvu : stringedData.user.criptoAdress
     })
   } catch (error) {
+    console.log(error)
     res.status(500).send('Internal server error:' + error)
   }
 }
