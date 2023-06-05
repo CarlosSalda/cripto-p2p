@@ -7,13 +7,13 @@ const Intentions = require('../../model/enums/intentions')
 const axios = require('axios')
 
 const sellerRandomData = {
-  email: 'RandomMailWorld@outlook.com',
-  cvu: '77485263'
+  email: 'Hitestingsecondpart@binance.com',
+  cvu: '1234567890123456789012'
 }
 
 const buyerRandomData = {
-  email: 'RandomMailhelloeveryone@outlook.com',
-  criptoAdress: '0xasdas21323'
+  email: 'Hitestingsecondpart@binance.com',
+  criptoAdress: '0xasdas2'
 }
 
 const dataSellerTransaction = {

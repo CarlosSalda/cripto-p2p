@@ -4,13 +4,14 @@ const axios = require('axios')
 const URL_BASE = 'http://localhost:3000'
 
 const randomIntention = {
-  criptoName: 'USDT',
-  amountCripto: 200,
+  datetime: '2022-10-31T09:00:00Z',
+  cryptoName: 'USDT',
+  amountCrypto: 200,
   valueCripto: 1.05,
   amountPesos: 7500,
   userData: 'John Doe',
-  type: 'Compra',
-  userEmail: 'johndoe@gmail.com'
+  userEmail: 'johndoe@gmail.com',
+  type: 'Compra'
 }
 
 describe('End to end tests', () => {
