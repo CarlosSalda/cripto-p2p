@@ -73,7 +73,6 @@ const getIntentions = async (req, res) => {
 
 const getUserReputation = (users, email) => {
   for (const user of users) {
-    console.log('user', user, 'target email', email)
     if (user.email === email) return user
   }
 }

@@ -3,6 +3,8 @@ require('dotenv').config()
 const express = require('express')
 const app = express()
 require('./persistence/database')
+require('./aspects')
+
 const apiRoutes = require('./routes/apiRoutes')
 const cors = require('cors')
 const swaggerUi = require('swagger-ui-express')
