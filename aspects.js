@@ -9,11 +9,11 @@ const controllers = [intentionController, transactionController, userController,
 // timestamp,user,operación/metodo, parámetros, tiempoDeEjecicion
 // Supply any or all of the advice types at once
 const advices = {
-  afterThrowing: function(thrownException) {
+  afterThrowing: function (thrownException) {
     console.error('Exception: ' + thrownException)
   },
 
-  async around(pointcut) {
+  async around (pointcut) {
     const initialDate = new Date()
     await pointcut.proceed()
     const endDate = new Date()

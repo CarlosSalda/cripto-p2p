@@ -48,14 +48,30 @@ const doTransaction = async (req, res) => {
       else if (stringedData.action === 'Confirmar recepción') return 'Buyer'
     }
 
-    stringedData = { ...stringedData, user: user, reputation: getReputation(user) }
+    const isValidTransactionData = (data) => {
+      return (
+        data.cryptoActive &&
+        data.nominalAmount &&
+        data.cotization &&
+        data.operationValue &&
+        data.operationAmount &&
+        data.action &&
+        data.type
+      )
+    }
 
-    await transactionSchema.create(stringedData)
+    if (isValidTransactionData(stringedData)) {
+      stringedData = { ...stringedData, user, reputation: getReputation(user) }
 
-    res.status(201).send({
-      message: `Transaction created. ${action()}`,
-      direction: action() === 'Seller' ? stringedData.user.cvu : stringedData.user.criptoAdress
-    })
+      await transactionSchema.create(stringedData)
+
+      res.status(201).send({
+        message: `Transaction created. ${action()}`,
+        direction: action() === 'Seller' ? stringedData.user.cvu : stringedData.user.criptoAdress
+      })
+    } else {
+      res.status(500).send('Transaction creation: Internal server error: ' + 'invalid Data from Transacion')
+    }
   } catch (error) {
     console.log(error)
     res.status(500).send('Internal server error:' + error)
@@ -64,7 +80,7 @@ const doTransaction = async (req, res) => {
 
 const getTransactions = async (req, res) => {
   try {
-    const verify = verifyToken(req, res)
+    const verify = await verifyToken(req, res)
     if (verify.message === 'Unauthorized' || verify.message === 'Invalid token') {
       return res.status(verify.status).send(verify.message)
     }

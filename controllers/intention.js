@@ -22,6 +22,7 @@ const createIntention = async (req, res) => {
       userEmail: req.body.userEmail.toString(),
       type: req.body.type.toString()
     }
+
     const isValidIntentionData = (data) => {
       return (
         data.datetime &&
@@ -62,7 +63,6 @@ const getIntentions = async (req, res) => {
     const users = await userSchema.find({})
 
     const response = []
-    verifyToken(req, res)
 
     for (const intention of intentions) {
       const parsedIntention = new intentionModel.Intention(intention)
