@@ -189,16 +189,6 @@ describe('User model tests', () => {
       expect(validatedUser.getCompletedOperations()).toBe(0)
       expect(validatedUser.getTotalOperations()).toBe(0)
     })
-
-    // test('Get operations equals to 1', () => {
-    //   const validatedUser = User.validateUser(anyUser)
-
-    //   const test = validatedUser.addSuccessfullOperation(false, () => {})
-
-    //   console.log(test)
-    //   expect(validatedUser.getCompletedOperations()).toBe(1)
-    //   expect(validatedUser.getTotalOperations()).toBe(1)
-    // })
   })
 })
 

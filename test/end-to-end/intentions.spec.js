@@ -21,15 +21,12 @@ describe('End to end tests', () => {
 
       expect(response.status).toBe(201)
       expect(response.data).toBe('Intention created')
-
-      // intentionSchema.deleteOne({ userEmail: randomIntention.userEmail }, function (err) { console.log('error deleting test intention', err) })
     })
 
     test('Get intentions', async () => {
       const response = await axios.get(URL_BASE + '/api/intentions')
 
       expect(response.status).toBe(200)
-      // expect(response.data.message).toBe('Transaction canceled')
     })
   })
 })

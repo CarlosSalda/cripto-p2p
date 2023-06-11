@@ -4,9 +4,14 @@ const intentionSchema = mongoose.model('Intention')
 const userSchema = mongoose.model('User')
 const { User } = require('../model/User')
 const system = require('../model/System')
+const verifyToken = require('../webservice/tokenVerification.js')
 
 const createIntention = async (req, res) => {
   try {
+    const verify = await verifyToken(req, res)
+    if (verify.message === 'Unauthorized' || verify.message === 'Invalid token') {
+      return res.status(verify.status).send(verify.message)
+    }
     const intentionData = {
       datetime: req.body.datetime.toString(),
       cryptoname: req.body.cryptoName.toString(),
@@ -17,6 +22,7 @@ const createIntention = async (req, res) => {
       userEmail: req.body.userEmail.toString(),
       type: req.body.type.toString()
     }
+
     const isValidIntentionData = (data) => {
       return (
         data.datetime &&
@@ -47,6 +53,12 @@ const createIntention = async (req, res) => {
 
 const getIntentions = async (req, res) => {
   try {
+    const verify = await verifyToken(req, res)
+
+    if (verify.message === 'Unauthorized' || verify.message === 'Invalid token') {
+      return res.status(verify.status).send(verify.message)
+    }
+
     const intentions = await intentionSchema.find({})
     const users = await userSchema.find({})
 
