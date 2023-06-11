@@ -2,8 +2,6 @@ const { describe, expect, test } = require('@jest/globals')
 const EnumsAction = require('../../model/enums/actions')
 const Enums = require('../../model/enums/cryptoactive')
 const Intentions = require('../../model/enums/intentions')
-// const Transaction = require('../../model/Transaction')
-// const request = require('supertest')
 const axios = require('axios')
 
 const sellerRandomData = {
@@ -49,10 +47,12 @@ const dataCancelTransaction = {
   type: Intentions.BUY
 }
 
+const baseUrl = 'http://localhost:3000'
+
 describe('Transaction Process model tests', () => {
   describe(('Transaction properties'), () => {
     test('Prcess transaction succesfully for seller', async () => {
-      const response = await axios.post('http://localhost:3000/api/transaction', dataSellerTransaction)
+      const response = await axios.post(`${baseUrl}/api/transaction`, dataSellerTransaction)
       console.log(response.data)
 
       expect(response.status).toBe(201)
@@ -61,7 +61,7 @@ describe('Transaction Process model tests', () => {
     })
 
     test('Prcess transaction succesfully for buyer', async () => {
-      const response = await axios.post('http://localhost:3000/api/transaction', dataBuyerTransaction)
+      const response = await axios.post(`${baseUrl}/api/transaction`, dataBuyerTransaction)
 
       expect(response.status).toBe(201)
       expect(response.data.message).toBe('Transaction created. Buyer')
@@ -69,7 +69,7 @@ describe('Transaction Process model tests', () => {
     })
 
     test('Cancel transaction succesfully', async () => {
-      const response = await axios.post('http://localhost:3000/api/transaction', dataCancelTransaction)
+      const response = await axios.post(`${baseUrl}/api/transaction`, dataCancelTransaction)
 
       expect(response.status).toBe(200)
       expect(response.data.message).toBe('Transaction canceled')

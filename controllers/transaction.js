@@ -1,8 +1,8 @@
 const mongoose = require('mongoose')
 const transactionSchema = mongoose.model('Transaction')
 const userSchema = mongoose.model('User')
-// const Transaction = require('../model/Transaction')
 const ReputationEnum = require('../model/enums/reputation')
+const verifyToken = require('../webservice/tokenVerification.js')
 
 const getUserData = async (email, res) => {
   try {
@@ -22,6 +22,12 @@ const getReputation = (user) => {
 
 const doTransaction = async (req, res) => {
   try {
+    const verify = await verifyToken(req, res)
+
+    if (verify.message === 'Unauthorized' || verify.message === 'Invalid token') {
+      return res.status(verify.status).send(verify.message)
+    }
+
     const transactionData = req.body
     const user = req.body.user ? req.body.user : await  getUserData(transactionData.userEmail, res)
 
@@ -34,8 +40,6 @@ const doTransaction = async (req, res) => {
       action: transactionData.action.toString(),
       type: transactionData.type.toString()
     }
-
-    // const transaction = new Transaction(stringedData.cryptoActive, stringedData.nominalAmount, stringedData.cotization, stringedData.operationValue, user, stringedData.operationAmount, getReputation(user), stringedData.action, stringedData.type)
 
     if (stringedData.action === 'Cancelar') return res.status(200).send({ message: 'Transaction canceled' })
 
@@ -60,6 +64,11 @@ const doTransaction = async (req, res) => {
 
 const getTransactions = async (req, res) => {
   try {
+    const verify = verifyToken(req, res)
+    if (verify.message === 'Unauthorized' || verify.message === 'Invalid token') {
+      return res.status(verify.status).send(verify.message)
+    }
+
     console.log(req.query.user, req.query.ltDate, req.query.gtDate)
     const user = req.query.user
 
