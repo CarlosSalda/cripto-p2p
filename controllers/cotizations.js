@@ -13,13 +13,16 @@ const cotizations = async (req, res) => {
 
     const response = []
 
-    for (const currency of COTIZATIONS_LIST) {
+    COTIZATIONS_LIST.forEach(async (currency) => {
       const price = await service.priceBinance(currency)
+      console.log(price)
       response.push(new Cotization(price))
-    }
+    })
 
     res.status(201).send(response)
+    return response
   } catch (error) {
+    console.log(error)
     res.status(500).send('Cotizations: Internal server error')
   }
 }

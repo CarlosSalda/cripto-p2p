@@ -5,8 +5,8 @@ const transactionController = require('./controllers/transaction')
 const userController = require('./controllers/user')
 const binanceService = require('./service/external/binance')
 
-const controllers = [intentionController, transactionController, userController, binanceService]
-// timestamp,user,operación/metodo, parámetros, tiempoDeEjecicion
+const controllers = [intentionController, transactionController, userController]
+
 // Supply any or all of the advice types at once
 const advices = {
   afterThrowing: function (thrownException) {

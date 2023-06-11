@@ -4,6 +4,7 @@ const mongoose = require('mongoose')
 const userSchema = mongoose.model('User')
 
 const verifyToken = async (req, res) => {
+  if (process.env.ENVIRONMENT === 'development') return { message: 'Valid token', status: 200 }
   const token = req.header('Authorization')?.split(' ')[1]
 
   if (!token) {
