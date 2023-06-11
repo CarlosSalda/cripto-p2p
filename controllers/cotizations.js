@@ -15,7 +15,6 @@ const cotizations = async (req, res) => {
 
     COTIZATIONS_LIST.forEach(async (currency) => {
       const price = await service.priceBinance(currency)
-      console.log(price)
       response.push(new Cotization(price))
     })
 

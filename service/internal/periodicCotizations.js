@@ -30,13 +30,9 @@ client.on('error', err => console.log('Redis Client Error', err, {
   password: process.env.REDIS_PASSWORD
 }))
 
-console.log('COTIZATION_UPDATE_FREQUENCY', COTIZATION_UPDATE_FREQUENCY)
-
 const saveCotization = async () => {
   const cotizations = await cotizationsController.cotizations({}, responseMock)
-  console.log('cotizations', cotizations)
   await client.set(REDIS_KEY, cotizations)
-  console.log('cotization saved in redis', cotizations)
 }
 
 const getLastDayCotizations = async () => {
