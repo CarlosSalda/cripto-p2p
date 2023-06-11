@@ -2,8 +2,6 @@ const jwt = require('jsonwebtoken')
 const secret = process.env.SECRET_KEY
 const mongoose = require('mongoose')
 const userSchema = mongoose.model('User')
-const { User } = require('../model/User')
-
 
 const verifyToken = async (req, res) => {
   const token = req.header('Authorization')?.split(' ')[1]

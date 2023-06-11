@@ -29,7 +29,7 @@ const doTransaction = async (req, res) => {
     }
 
     const transactionData = req.body
-    const user = req.body.user ? req.body.user : await  getUserData(transactionData.userEmail, res)
+    const user = req.body.user ? req.body.user : await getUserData(transactionData.userEmail.toString(), res)
 
     let stringedData = {
       cryptoActive: transactionData.cryptoActive.toString(),
