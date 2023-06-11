@@ -61,7 +61,7 @@ const doTransaction = async (req, res) => {
     }
 
     if (isValidTransactionData(stringedData)) {
-      stringedData = { ...stringedData, user, reputation: getReputation(user) }
+      stringedData = { ...stringedData, user: user.toString(), reputation: getReputation(user).toString() }
 
       await transactionSchema.create(stringedData)
 
