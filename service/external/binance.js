@@ -3,7 +3,6 @@ const axios = require('axios')
 const priceBinance = async (criptoName) => {
   try {
     if (process.env.ENVIRONMENT === 'production') return fakeBinanceResponse(criptoName)
-
     const response = await axios.get(`https://api.binance.com/api/v3/ticker/price?symbol=${criptoName}`)
     return response.data
   } catch (error) {

@@ -11,6 +11,7 @@ const swaggerUi = require('swagger-ui-express')
 const swaggerDocument = require('./swagger/swagger.json')
 
 const sampleDataSet = require('./test/dataset/test-dataset')
+const periodicCotizations = require('./service/internal/periodicCotizations')
 
 const corsOptions = {
   origin: process.env.BASE_URL
@@ -39,5 +40,8 @@ app.use('/api', apiRoutes)
 const port = process.env.PORT || 3000
 app.listen(port)
 console.log('App listening in port ' + port)
+
+// save cotization service
+//periodicCotizations.startCotizationService()
 
 module.exports = app
