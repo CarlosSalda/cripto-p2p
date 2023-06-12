@@ -41,4 +41,6 @@ app.listen(port, () => {
   periodicCotizations.startAgenda()
 })
 
+setTimeout(() => periodicCotizations.getLastDayCotizations(), 10000)
+
 module.exports = app
