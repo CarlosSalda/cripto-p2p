@@ -1,5 +1,5 @@
 const redis = require('redis')
-var { nanoid } = require("nanoid");
+const { nanoid } = require('nanoid')
 
 const client = redis.createClient({
   url: process.env.REDIS_URL,
@@ -10,23 +10,22 @@ const mongoConnectionString = process.env.MONGO_URL || ''
 
 const agenda = new Agenda({ db: { address: mongoConnectionString } })
 const COTIZATION_AGENDA_ID = 'cotization_' + nanoid()
-const RESET_DATA_AGENDA_ID = 'cotization_reset_' + nanoid() 
-const cotizationsController = require('../../controllers/cotizations')
 
-const COTIZATION_UPDATE_FREQUENCY = process.env.COTIZATION_FREQUENCY || 3600 // 1 hour
-const COTIZATION_RESET_UPDATE_FREQUENCY = process.env.RESET_FREQUENCY_HOURS || 24 // 1 hour
-const REDIS_KEY = 'cotizations'
+const COTIZATION_UPDATE_FREQUENCY = process.env.COTIZATION_FREQUENCY_HOURS || 3600 // 1 hour
+const REDIS_KEY = 'events'
 
-agenda.define(AGENDA_ID, async (job) => {
+let cotizationService = null
+
+agenda.define(COTIZATION_AGENDA_ID, async (job) => {
   await saveCotization()
 })
 
 const startAgenda = async () => {
   await client.connect()
+  await client.flushDb()
   await agenda.start()
-  console.log('Agenda started', AGENDA_ID)
-  await agenda.every(`${COTIZATION_UPDATE_FREQUENCY} seconds`, COTIZATION_AGENDA_ID)
-  await agenda.every(`${COTIZATION_RESET_UPDATE_FREQUENCY} hours`, RESET_DATA_AGENDA_ID)
+  console.log('Agenda started')
+  await agenda.every(`${COTIZATION_UPDATE_FREQUENCY} hours`, COTIZATION_AGENDA_ID)
 }
 
 client.on('error', err => console.log('Redis Client Error', err, {
@@ -34,25 +33,40 @@ client.on('error', err => console.log('Redis Client Error', err, {
   password: process.env.REDIS_PASSWORD
 }))
 
+const setCotizationService = (service) => {
+  cotizationService = service
+}
+
 const saveCotization = async () => {
-  const cotizations = await cotizationsController.cotizations({}, responseMock)
-  console.log('cotizations to save', cotizations)
+  if (!cotizationService) return
+
+  const cotizations = await cotizationService({}, responseMock)
   try {
     const tosave = {
       datetime: new Date(),
       cotization: cotizations
     }
-    await client.set(REDIS_KEY, JSON.stringify(tosave))
-  } catch (e)
-  {
+
+    const len = await client.lLen(REDIS_KEY)
+    if (len >= 24) {
+      await client.rPop(REDIS_KEY)
+    }
+
+    await client.lPush(REDIS_KEY, JSON.stringify(tosave))
+    console.log('New cotization pushed')
+  } catch (e) {
     console.log('set error', e)
   }
- 
 }
 
 const getLastDayCotizations = async () => {
-  const cotizations = await client.get(REDIS_KEY)
-  console.log('saved cotizations', cotizations)
+  try {
+    const cotizations = await client.lRange(REDIS_KEY, 0, -1)
+
+    return cotizations.map(cotization => JSON.parse(cotization))
+  } catch (e) {
+    console.log('get errr', e)
+  }
 }
 
 const responseMock = {
@@ -65,5 +79,6 @@ const responseMock = {
 
 module.exports = {
   startAgenda,
-  getLastDayCotizations
+  getLastDayCotizations,
+  setCotizationService
 }

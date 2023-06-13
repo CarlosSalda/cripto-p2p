@@ -3,9 +3,9 @@ const meld = require('meld')
 const intentionController = require('./controllers/intention')
 const transactionController = require('./controllers/transaction')
 const userController = require('./controllers/user')
-const binanceService = require('./service/external/binance')
+const cotizationsService = require('./controllers/cotizations')
 
-const controllers = [intentionController, transactionController, userController]
+const controllers = [intentionController, transactionController, userController, cotizationsService]
 
 // Supply any or all of the advice types at once
 const advices = {
