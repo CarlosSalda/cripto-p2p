@@ -11,7 +11,7 @@ const mongoConnectionString = process.env.MONGO_URL || ''
 const agenda = new Agenda({ db: { address: mongoConnectionString } })
 const COTIZATION_AGENDA_ID = 'cotization_' + nanoid()
 
-const COTIZATION_UPDATE_FREQUENCY = process.env.COTIZATION_FREQUENCY_HOURS || 3600 // 1 hour
+const COTIZATION_UPDATE_FREQUENCY = process.env.COTIZATION_FREQUENCY_MINUTES || 10 // 1 hour
 const REDIS_KEY = 'events'
 
 let cotizationService = null
@@ -25,7 +25,7 @@ const startAgenda = async () => {
   await client.flushDb()
   await agenda.start()
   console.log('Agenda started')
-  await agenda.every(`${COTIZATION_UPDATE_FREQUENCY} hours`, COTIZATION_AGENDA_ID)
+  await agenda.every(`${COTIZATION_UPDATE_FREQUENCY} minutes`, COTIZATION_AGENDA_ID)
 }
 
 client.on('error', err => console.log('Redis Client Error', err, {
