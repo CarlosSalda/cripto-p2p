@@ -21,6 +21,7 @@ const verifyToken = async (req, res) => {
 
     return {
       message: 'Valid token',
+      id: decoded.userId,
       status: 200
     }
   } catch (error) {

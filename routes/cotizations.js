@@ -3,6 +3,7 @@ const router = express.Router()
 const cotizationsController = require('../controllers/cotizations')
 
 router.get('/cotizations', cotizationsController.cotizations)
-router.get('/lastcotizations', cotizationsController.lastCotizations)
+router.get('/lastcotization', cotizationsController.lastCotizations)
+router.get('/lastdaycotizations', cotizationsController.lastDayCotizations)
 
 module.exports = router

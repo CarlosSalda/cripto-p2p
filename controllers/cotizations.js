@@ -38,7 +38,25 @@ const lastCotizations = async (req, res) => {
       return res.status(verify.status).send(verify.message)
     }
 
-    const response = await periodicCotizationsService.getLastDayCotizations()
+    const response = await periodicCotizationsService.getCotizations()
+
+    res.status(201).send(response)
+    return response
+  } catch (error) {
+    console.log(error)
+    res.status(500).send('Cotizations: Internal server error')
+  }
+}
+
+const lastDayCotizations = async (req, res) => {
+  try {
+    const verify = await verifyToken(req, res)
+
+    if (verify.message === 'Unauthorized' || verify.message === 'Invalid token') {
+      return res.status(verify.status).send(verify.message)
+    }
+
+    const response = await periodicCotizationsService.getLastDayCotizations(req.query.currency)
 
     res.status(201).send(response)
     return response
@@ -50,5 +68,6 @@ const lastCotizations = async (req, res) => {
 
 module.exports = {
   cotizations,
-  lastCotizations
+  lastCotizations,
+  lastDayCotizations
 }

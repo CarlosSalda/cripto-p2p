@@ -13,11 +13,13 @@ const COTIZATION_AGENDA_ID = 'cotization_' + nanoid()
 
 const COTIZATION_UPDATE_FREQUENCY = process.env.COTIZATION_FREQUENCY_MINUTES || 10 // 1 hour
 const REDIS_KEY = 'events'
+const REDIS_KEY_LIST = 'events_list'
 
 let cotizationService = null
 
 agenda.define(COTIZATION_AGENDA_ID, async (job) => {
   await saveCotization()
+  await setLast24HoursCotizations()
 })
 
 const startAgenda = async () => {
@@ -25,7 +27,7 @@ const startAgenda = async () => {
   await client.flushDb()
   await agenda.start()
   console.log('Agenda started')
-  await agenda.every(`${COTIZATION_UPDATE_FREQUENCY} minutes`, COTIZATION_AGENDA_ID)
+  await agenda.every(`${COTIZATION_UPDATE_FREQUENCY} seconds`, COTIZATION_AGENDA_ID)
 }
 
 client.on('error', err => console.log('Redis Client Error', err, {
@@ -47,23 +49,56 @@ const saveCotization = async () => {
       cotization: cotizations
     }
 
-    const len = await client.lLen(REDIS_KEY)
-    if (len >= 24) {
-      await client.rPop(REDIS_KEY)
-    }
+    await client.set(REDIS_KEY, JSON.stringify(tosave))
 
-    await client.lPush(REDIS_KEY, JSON.stringify(tosave))
-    console.log('New cotization pushed')
+    console.log('New cotization cached')
   } catch (e) {
-    console.log('set error', e)
+    console.log('cache saving error', e)
   }
 }
 
-const getLastDayCotizations = async () => {
-  try {
-    const cotizations = await client.lRange(REDIS_KEY, 0, -1)
+const setLast24HoursCotizations = async (currency) => {
+  if (!cotizationService) return
 
-    return cotizations.map(cotization => JSON.parse(cotization))
+  const cotizations = await cotizationService({}, responseMock)
+  try {
+    const tosave = {
+      datetime: new Date(),
+      cotization: cotizations
+    }
+
+    const len = await client.lLen(REDIS_KEY_LIST)
+    if (len >= 24) {
+      await client.rPop(REDIS_KEY_LIST)
+    }
+
+    await client.lPush(REDIS_KEY_LIST, JSON.stringify(tosave))
+
+    console.log('New cotization pushed')
+  } catch (e) {
+    console.log('last cotization pushing error', e)
+  }
+}
+
+const getCotizations = async () => {
+  try {
+    const cotization = await client.get(REDIS_KEY)
+
+    return JSON.parse(cotization)
+  } catch (e) {
+    console.log('get errr', e)
+  }
+}
+
+const getLastDayCotizations = async (currency) => {
+  try {
+    const cotizations = await client.lRange(REDIS_KEY_LIST, 0, -1)
+
+    return cotizations.map(cotization => {
+      const parsedCotization = JSON.parse(cotization)
+      parsedCotization.cotization = parsedCotization.cotization.filter(c => c.symbol === currency)
+      return parsedCotization
+    })
   } catch (e) {
     console.log('get errr', e)
   }
@@ -80,5 +115,7 @@ const responseMock = {
 module.exports = {
   startAgenda,
   getLastDayCotizations,
-  setCotizationService
+  setCotizationService,
+  getCotizations,
+  setLast24HoursCotizations
 }
