@@ -5,8 +5,8 @@ const userSchema = mongoose.model('User')
 
 const verifyToken = async (req, res) => {
   if (process.env.ENVIRONMENT === 'development') return { message: 'Valid token', status: 200 }
-  const token = req.header('Authorization')?.split(' ')[1]
-
+  const token = req.headers.authorization || null
+  console.log('token:', token)
   if (!token) {
     return {
       message: 'Unauthorized',
@@ -17,11 +17,11 @@ const verifyToken = async (req, res) => {
   try {
     const decoded = jwt.verify(token, secret)
 
-    await userSchema.findOne({ id: decoded.userId })
+    await userSchema.findOne({ id: decoded.id })
 
     return {
       message: 'Valid token',
-      id: decoded.userId,
+      id: decoded.id,
       status: 200
     }
   } catch (error) {
