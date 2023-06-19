@@ -15,14 +15,14 @@ const cotizations = async (req, res) => {
 
     const response = []
 
-    const cotizations = () => {
-      COTIZATIONS_LIST.forEach(async (currency) => {
-        const price = await service.priceBinance(currency)
-        response.push(new Cotization(price))
-      })
+    const functionCurr = async (currency) => {
+      const price = await service.priceBinance(currency)
+      response.push(new Cotization(price))
     }
 
-    await cotizations()
+    COTIZATIONS_LIST.forEach(curr => {
+      functionCurr(curr)
+    })
 
     res.status(201).send(response)
     return response
