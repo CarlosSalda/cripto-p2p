@@ -2,6 +2,7 @@ const mongoose = require('mongoose')
 const userSchema = mongoose.model('User')
 const { User } = require('../model/User')
 const jsonWebToken = require('jsonwebtoken')
+const verifyToken = require('../webservice/tokenVerification.js')
 const secret = process.env.SECRET_KEY
 
 const register = async (req, res) => {
@@ -39,7 +40,26 @@ const login = async (req, res) => {
   }
 }
 
+const getUsers = async (req, res) => {
+  try {
+    const verify = await verifyToken(req, res)
+    if (verify.message === 'Unauthorized' || verify.message === 'Invalid token') {
+      return res.status(verify.status).send(verify.message)
+    }
+
+    const users = await userSchema.find()
+    const response = users.map(user => {
+      return user.name + ' ' + user.surname
+    })
+
+    res.status(200).send(response)
+  } catch (error) {
+    res.status(500).send('Internal server error')
+  }
+}
+
 module.exports = {
   register,
-  login
+  login,
+  getUsers
 }
