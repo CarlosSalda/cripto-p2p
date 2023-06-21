@@ -19,7 +19,23 @@ const advices = {
     const endDate = new Date()
     const time = endDate - initialDate
 
-    console.log(`[LOG] [${endDate.toISOString()}] METHOD: ${pointcut.method} PARAMETERS: ${pointcut.args.length[0]} - took ${time}ms to execute`)
+    const firstParam = pointcut.args[0]
+
+    console.log(`[LOG] [${endDate.toISOString()}] user: ${getUser(firstParam)} METHOD: ${pointcut.method} PARAMETERS: ${pointcut.args.length[0]} - took ${time}ms to execute`)
+  }
+}
+
+const getUser = (fstArg) => {
+  if (!fstArg || !fstArg.body) return 'anonymous'
+
+  if (fstArg.body.user) {
+    return fstArg.body.user
+  } else if (fstArg && fstArg.body.email) {
+    return fstArg.body.email
+  } else if (fstArg && fstArg.body.userEmail) {
+    return fstArg.body.userEmail
+  } else {
+    return 'anonymous'
   }
 }
 
