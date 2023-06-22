@@ -19,6 +19,7 @@
   "homepage": "https://github.com/CarlosSalda/cripto-p2p#readme",
   "devDependencies": {
     "@jest/globals": "^29.5.0",
+    "dependency-cruiser": "^13.0.4",
     "eslint": "^8.36.0",
     "eslint-config-standard": "^17.0.0",
     "eslint-plugin-import": "^2.27.5",

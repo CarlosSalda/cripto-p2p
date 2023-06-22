@@ -9,7 +9,7 @@ const apiRoutes = require('./routes/apiRoutes')
 const cors = require('cors')
 const swaggerUi = require('swagger-ui-express')
 const swaggerDocument = require('./swagger/swagger.json')
-const sampleDataSet = require('./test/dataset/test-dataset')
+const sampleDataSet = require('./dataset/init-dataset')
 const periodicCotizations = require('./service/internal/periodicCotizations')
 
 const corsOptions = {

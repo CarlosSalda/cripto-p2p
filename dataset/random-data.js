@@ -1,6 +1,6 @@
-const { User } = require('../../model/User')
-const CRIPTO_NAMES = require('../../model/enums/cryptoactive')
-const INTENTION_TYPE = require('../../model/enums/intentions')
+const { User } = require('../model/User')
+const CRIPTO_NAMES = require('../model/enums/cryptoactive')
+const INTENTION_TYPE = require('../model/enums/intentions')
 const crypto = require('crypto')
 
 const number = (min, max) => {
