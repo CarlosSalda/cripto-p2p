@@ -17,7 +17,7 @@ const corsOptions = {
 }
 
 // Sample dataset
-if (process.env.ENVIRONMENT === 'production') sampleDataSet.init().then(console.log('Data Loaded')).catch(console.log('Data Failed'))
+if (process.env.ENVIRONMENT === 'development') sampleDataSet.init().then(console.log('Data Loaded')).catch(console.log('Data Failed'))
 
 // Api
 app.use(express.urlencoded({ extended: true }))
