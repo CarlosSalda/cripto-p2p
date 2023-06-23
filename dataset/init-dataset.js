@@ -1,6 +1,6 @@
 const intentionController = require('../controllers/intention')
-const userController = require('../controllers/User')
-const transactionController = require('../controllers/Transaction')
+const userController = require('../controllers/user')
+const transactionController = require('../controllers/transaction')
 
 const RandomData = require('./random-data')
 
