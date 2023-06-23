@@ -47,13 +47,12 @@ const dataCancelTransaction = {
   type: Intentions.BUY
 }
 
-const baseUrl = 'http://localhost:3000'
+const baseUrl = process.env.TEST_ENDPOINT_BASE || 'http://localhost:3000'
 
 describe('Transaction Process model tests', () => {
   describe(('Transaction properties'), () => {
     test('Prcess transaction succesfully for seller', async () => {
       const response = await axios.post(`${baseUrl}/api/transaction`, dataSellerTransaction)
-      console.log(response.data)
 
       expect(response.status).toBe(201)
       expect(response.data.message).toBe('Transaction created. Seller')

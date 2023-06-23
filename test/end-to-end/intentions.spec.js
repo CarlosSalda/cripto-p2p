@@ -1,7 +1,7 @@
 const { describe, expect, test } = require('@jest/globals')
 const axios = require('axios')
 
-const URL_BASE = 'http://localhost:3000'
+const URL_BASE = process.env.TEST_ENDPOINT_BASE || 'http://localhost:3000'
 
 const randomIntention = {
   datetime: '2022-10-31T09:00:00Z',
