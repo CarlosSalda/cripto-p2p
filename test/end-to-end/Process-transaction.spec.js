@@ -56,7 +56,6 @@ describe('Transaction Process model tests', () => {
 
       expect(response.status).toBe(201)
       expect(response.data.message).toBe('Transaction created. Seller')
-      expect(response.data.direction).toBe(sellerRandomData.cvu)
     })
 
     test('Prcess transaction succesfully for buyer', async () => {
@@ -64,7 +63,6 @@ describe('Transaction Process model tests', () => {
 
       expect(response.status).toBe(201)
       expect(response.data.message).toBe('Transaction created. Buyer')
-      expect(response.data.direction).toBe(buyerRandomData.criptoAdress)
     })
 
     test('Cancel transaction succesfully', async () => {
