@@ -1,11 +1,3 @@
-const mongoose = require('mongoose')
-const intentionSchema = mongoose.model('Intention')
-const transactionSchema = mongoose.model('Transaction')
-const userSchema = mongoose.model('User')
-
-const { Intention } = require('../model/Intention')
-const { User } = require('../model/User')
-
 const intentionController = require('../controllers/intention')
 const userController = require('../controllers/User')
 const transactionController = require('../controllers/Transaction')

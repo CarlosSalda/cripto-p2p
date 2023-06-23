@@ -1,6 +1,3 @@
-
-const mongoose = require('mongoose')
-const operationSchema = mongoose.model('Operations')
 // const Operation = require('../model/Operation')
 const verifyToken = require('../webservice/tokenVerification.js')
 
@@ -10,9 +7,6 @@ const userOperations = async (req, res) => {
     if (verify.message === 'Unauthorized' || verify.message === 'Invalid token') {
       return res.status(verify.status).send(verify.message)
     }
-    const user = req.query.user
-
-    const operations = await operationSchema.find({ userEmail: user.toString() })
 
     res.status(201).send([])
   } catch (error) {
