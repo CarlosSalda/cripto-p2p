@@ -9,9 +9,18 @@
     "http",
     "https"
   ],
+  "securityDefinitions": {
+    "Authorization": {
+      "type": "apiKey",
+      "name": "Authorization",
+      "in": "header",
+      "description": "The token for authentication"
+    }
+  },
   "paths": {
     "/": {
       "get": {
+        "tags": ["Sample endpoint"],
         "description": "Welcome",
         "responses": {
           "200": {
@@ -22,7 +31,7 @@
     },
     "/register": {
       "post": {
-        "tags": ["Register user"],
+        "tags": ["Users"],
         "summary": "Register a user",
         "description": "Register a user",
         "produces": [
@@ -75,6 +84,93 @@
             }
           }
         ],
+        "responses": {
+          "201": {
+            "description": "User created"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/login": {
+      "post": {
+        "tags": ["Users"],
+        "summary": "Login a user",
+        "description": "Login a user. This operation is neccesary to get the token and use the other endpoints",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Login parameters",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "type": "string",
+                  "format": "email",
+                  "example": "user@example.com"
+                },
+                "password": {
+                  "type": "string",
+                  "example": "dqKXVRhx4wiZIPgK9E8ncnxAs#apW6fvKxxU5p8SHbkTkvg2gGSM1rVtY9dXtEpcCHJEmyDwGjkIYKpXStw8puJUobNF84V6I"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Login successful and token generated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "description": "The user ID."
+                    },
+                    "username": {
+                      "type": "string",
+                      "description": "The user name."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/users": {
+      "get": {
+        "tags": ["Users"],
+        "summary": "Register a user",
+        "description": "Register a user",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "parameters": [],
         "responses": {
           "201": {
             "description": "User created"
