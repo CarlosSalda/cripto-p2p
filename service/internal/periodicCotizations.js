@@ -42,7 +42,7 @@ const setCotizationService = (service) => {
 const saveCotization = async () => {
   if (!cotizationService) return
 
-  const cotizations = await cotizationService({}, responseMock)
+  const cotizations = await cotizationService({}, responseMock, true)
   try {
     const tosave = {
       datetime: new Date(),
@@ -60,7 +60,7 @@ const saveCotization = async () => {
 const setLast24HoursCotizations = async (currency) => {
   if (!cotizationService) return
 
-  const cotizations = await cotizationService({}, responseMock)
+  const cotizations = await cotizationService({}, responseMock, true)
   try {
     const tosave = {
       datetime: new Date(),
