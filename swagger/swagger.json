@@ -21,7 +21,7 @@
     "/": {
       "get": {
         "tags": ["Sample endpoint"],
-        "description": "Welcome",
+        "description": "Welcome message",
         "responses": {
           "200": {
             "description": "Welcome to Cripto-p2p"
@@ -157,8 +157,8 @@
     "/users": {
       "get": {
         "tags": ["Users"],
-        "summary": "Register a user",
-        "description": "Register a user",
+        "summary": "Get all registered users",
+        "description": "Returns the list of all registed users",
         "produces": [
           "application/json"
         ],
@@ -255,8 +255,8 @@
     "/transactions": {
       "get": {
         "tags": ["Transactions"],
-        "summary": "Create a transaction",
-        "description": "Create a transaction",
+        "summary": "Get all transactions",
+        "description": "Get all transactions within a date range, for the specified user",
         "produces": [
           "application/json"
         ],
@@ -272,7 +272,7 @@
           {
             "name": "ltDate",
             "in": "query",
-            "description": "transaction parameters",
+            "description": "Initial date of the range",
             "required": true,
             "schema": {
               "type": "datetime",
@@ -282,7 +282,7 @@
           {
             "name": "gtDate",
             "in": "query",
-            "description": "transaction parameters",
+            "description": "Final date of the range",
             "required": true,
             "schema": {
               "type": "datetime",
@@ -292,7 +292,7 @@
           {
             "name": "user",
             "in": "query",
-            "description": "transaction parameters",
+            "description": "User email",
             "required": true,
             "schema": {
               "type": "email",
@@ -316,7 +316,7 @@
         "description": "Get most famous crypto-currencies prices",
         "responses": {
           "200": {
-            "description": "Welcome to Cripto-p2p"
+            "description": "A list with current currency prices"
           }
         }
       }
@@ -324,10 +324,10 @@
     "/lastcotization": {
       "get": {
         "tags": ["Cotizations"],
-        "description": "Get most famous crypto-currencies prices",
+        "description": "Get Last famous crypto-currencies prices (Cached version)",
         "responses": {
           "200": {
-            "description": "Welcome to Cripto-p2p"
+            "description": "A list with current currency prices"
           }
         }
       }
@@ -335,7 +335,7 @@
     "/lastdaycotizations": {
       "get": {
         "tags": ["Cotizations"],
-        "description": "Get most famous crypto-currencies prices",
+        "description": "Get last day cotizations from a specific currency",
         "parameters": [
           {
             "name": "currency",
@@ -344,13 +344,13 @@
             "required": true,
             "schema": {
               "type": "string",
-              "example": "USDT"
+              "example": "TRXUSDT"
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "Welcome to Cripto-p2p"
+            "description": "A list with last cotizations from the specified currency"
           }
         }
       }
@@ -365,6 +365,11 @@
         ],
         "consumes": [
           "application/json"
+        ],
+        "security": [
+          {
+            "Authorization": []
+          }
         ],
         "parameters": [
           {
@@ -426,6 +431,11 @@
       "get": {
         "tags": ["Intentions"],
         "description": "Get a list of all BUY / SELL intentions",
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
         "responses": {
           "200": {
             "description": "a list of all intentions"
