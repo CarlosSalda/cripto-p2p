@@ -321,6 +321,40 @@
         }
       }
     },
+    "/lastcotization": {
+      "get": {
+        "tags": ["Cotizations"],
+        "description": "Get most famous crypto-currencies prices",
+        "responses": {
+          "200": {
+            "description": "Welcome to Cripto-p2p"
+          }
+        }
+      }
+    },
+    "/lastdaycotizations": {
+      "get": {
+        "tags": ["Cotizations"],
+        "description": "Get most famous crypto-currencies prices",
+        "parameters": [
+          {
+            "name": "currency",
+            "in": "query",
+            "description": "Currency name",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "USDT"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Welcome to Cripto-p2p"
+          }
+        }
+      }
+    },
     "/intentions": {
       "post": {
         "tags": ["Intentions"],
