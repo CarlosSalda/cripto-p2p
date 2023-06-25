@@ -22,9 +22,9 @@ const cotizations = async (req, res, isInternal) => {
       response.push(new Cotization(price))
     }
 
-    COTIZATIONS_LIST.forEach(curr => {
-      functionCurr(curr)
-    })
+    for (let i = 0; i < COTIZATIONS_LIST.length; i++) {
+      await functionCurr(COTIZATIONS_LIST[i])
+    }
 
     res.status(201).send(response)
     return response
@@ -67,7 +67,6 @@ const lastDayCotizations = async (req, res, isInternal) => {
     }
 
     const response = await periodicCotizationsService.getLastDayCotizations(req.query.currency)
-
     res.status(201).send(response)
     return response
   } catch (error) {
