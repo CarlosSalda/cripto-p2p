@@ -192,6 +192,11 @@
         "consumes": [
           "application/json"
         ],
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
         "parameters": [
           {
             "name": "body",
@@ -207,42 +212,91 @@
                 },
                 "nominalAmount": {
                   "type": "number",
-                  "example": 200
+                  "example": 50
                 },
                 "cotization": {
                   "type": "number",
-                  "example": 0
+                  "example": 10
                 },
                 "operationValue": {
                   "type": "number",
-                  "example": 7500
-                },
-                "fullNameUser": {
-                  "type": "string",
-                  "example": "John Doe"
-                },
-                "operationAmount": {
-                  "type": "number",
-                  "example": 200
+                  "example": 10
                 },
                 "userEmail": {
                   "type": "email",
-                  "example": "RandomMailhelloeveryone@outlook.com"
+                  "example": "Hitestingsecondpart@binance.com"
                 },
-                "reputation": {
+                "operationAmount": {
                   "type": "number",
-                  "example": 0
+                  "example": 500
                 },
                 "action": {
-                  "type": "string"
+                  "type": "string",
+                  "example": "Realice la transferencia"
                 },
                 "type": {
-                  "type": "string"
-                },
-                "direction": {
-                  "type": "string"
+                  "type": "string",
+                  "example": "Venta"
                 }
               }
+            }
+          }
+        ],
+         "responses": {
+          "201": {
+            "description": "Transaction created"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/transactions": {
+      "get": {
+        "tags": ["Transactions"],
+        "summary": "Create a transaction",
+        "description": "Create a transaction",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "ltDate",
+            "in": "query",
+            "description": "transaction parameters",
+            "required": true,
+            "schema": {
+              "type": "datetime",
+              "example": "2023-06-01T19:33:46.377Z"
+            }
+          },
+          {
+            "name": "gtDate",
+            "in": "query",
+            "description": "transaction parameters",
+            "required": true,
+            "schema": {
+              "type": "datetime",
+              "example": "2023-06-19T19:33:46.377Z"    
+            }
+          },
+          {
+            "name": "user",
+            "in": "query",
+            "description": "transaction parameters",
+            "required": true,
+            "schema": {
+              "type": "email",
+              "example": "Hitestingsecondpart@binance.com"   
             }
           }
         ],
