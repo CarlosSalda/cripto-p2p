@@ -4,9 +4,14 @@ const intentionSchema = mongoose.model('Intention')
 const userSchema = mongoose.model('User')
 const { User } = require('../model/User')
 const system = require('../model/System')
+const verifyToken = require('../webservice/tokenVerification.js')
 
 const createIntention = async (req, res) => {
   try {
+    const verify = await verifyToken(req, res)
+    if (verify.message === 'Unauthorized' || verify.message === 'Invalid token') {
+      return res.status(verify.status).send(verify.message)
+    }
     const intentionData = {
       datetime: req.body.datetime.toString(),
       cryptoname: req.body.cryptoName.toString(),
@@ -34,7 +39,6 @@ const createIntention = async (req, res) => {
     if (isValidIntentionData(intentionData)) {
       intentionData.datetime = new Date(intentionData.datetime)
       const intention = new intentionModel.Intention(intentionData, system)
-
       await intentionSchema.create(intention)
 
       res.status(201).send('Intention created')
@@ -42,12 +46,19 @@ const createIntention = async (req, res) => {
       res.status(500).send('Intentions creation: Internal server error: ' + 'invalid Data from Intention')
     }
   } catch (error) {
+    console.log(error)
     res.status(500).send('Intentions creation: Internal server error: ' + error.message)
   }
 }
 
 const getIntentions = async (req, res) => {
   try {
+    const verify = await verifyToken(req, res)
+
+    if (verify.message === 'Unauthorized' || verify.message === 'Invalid token') {
+      return res.status(verify.status).send(verify.message)
+    }
+
     const intentions = await intentionSchema.find({})
     const users = await userSchema.find({})
 
@@ -74,7 +85,6 @@ const getIntentions = async (req, res) => {
 
 const getUserReputation = (users, email) => {
   for (const user of users) {
-    console.log('user', user, 'target email', email)
     if (user.email === email) return user
   }
 }

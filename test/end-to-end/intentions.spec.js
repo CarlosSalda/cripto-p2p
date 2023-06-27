@@ -1,16 +1,17 @@
 const { describe, expect, test } = require('@jest/globals')
 const axios = require('axios')
 
-const URL_BASE = 'http://localhost:3000'
+const URL_BASE = process.env.TEST_ENDPOINT_BASE || 'http://localhost:3000'
 
 const randomIntention = {
-  criptoName: 'USDT',
-  amountCripto: 200,
+  datetime: '2022-10-31T09:00:00Z',
+  cryptoName: 'USDT',
+  amountCrypto: 200,
   valueCripto: 1.05,
   amountPesos: 7500,
   userData: 'John Doe',
-  type: 'Compra',
-  userEmail: 'johndoe@gmail.com'
+  userEmail: 'johndoe@gmail.com',
+  type: 'Compra'
 }
 
 describe('End to end tests', () => {
@@ -20,15 +21,12 @@ describe('End to end tests', () => {
 
       expect(response.status).toBe(201)
       expect(response.data).toBe('Intention created')
-
-      // intentionSchema.deleteOne({ userEmail: randomIntention.userEmail }, function (err) { console.log('error deleting test intention', err) })
     })
 
     test('Get intentions', async () => {
       const response = await axios.get(URL_BASE + '/api/intentions')
 
       expect(response.status).toBe(200)
-      // expect(response.data.message).toBe('Transaction canceled')
     })
   })
 })

@@ -9,10 +9,19 @@
     "http",
     "https"
   ],
+  "securityDefinitions": {
+    "Authorization": {
+      "type": "apiKey",
+      "name": "Authorization",
+      "in": "header",
+      "description": "The token for authentication"
+    }
+  },
   "paths": {
     "/": {
       "get": {
-        "description": "Welcome",
+        "tags": ["Sample endpoint"],
+        "description": "Welcome message",
         "responses": {
           "200": {
             "description": "Welcome to Cripto-p2p"
@@ -22,6 +31,7 @@
     },
     "/register": {
       "post": {
+        "tags": ["Users"],
         "summary": "Register a user",
         "description": "Register a user",
         "produces": [
@@ -40,29 +50,35 @@
               "type": "object",
               "properties": {
                 "name": {
-                  "type": "string"
+                  "type": "string",
+                  "example": "John"
                 },
                 "surname": {
-                  "type": "string"
+                  "type": "string",
+                  "example": "Cena"
                 },
                 "email": {
                   "type": "string",
-                  "format": "email"
+                  "format": "email",
+                  "example": "user@example.com"
                 },
                 "adress": {
-                  "type": "string"
+                  "type": "string",
+                  "example": "the sample address"
                 },
                 "password": {
                   "type": "string",
-                  "pattern": "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$"
+                  "example": "dqKXVRhx4wiZIPgK9E8ncnxAs#apW6fvKxxU5p8SHbkTkvg2gGSM1rVtY9dXtEpcCHJEmyDwGjkIYKpXStw8puJUobNF84V6I"
                 },
                 "cvu": {
                   "type": "string",
-                  "pattern": "^[0-9]{22}$"
+                  "pattern": "^[0-9]{22}$",
+                  "example": "9789678918522187052125"
                 },
                 "criptoAdress": {
                   "type": "string",
-                  "pattern": "^[0-9]{8}$"
+                  "pattern": "^[0-9]{8}$",
+                  "example": "86822153"
                 }
               }
             }
@@ -78,8 +94,96 @@
         }
       }
     },
+    "/login": {
+      "post": {
+        "tags": ["Users"],
+        "summary": "Login a user",
+        "description": "Login a user. This operation is neccesary to get the token and use the other endpoints",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Login parameters",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "email": {
+                  "type": "string",
+                  "format": "email",
+                  "example": "user@example.com"
+                },
+                "password": {
+                  "type": "string",
+                  "example": "dqKXVRhx4wiZIPgK9E8ncnxAs#apW6fvKxxU5p8SHbkTkvg2gGSM1rVtY9dXtEpcCHJEmyDwGjkIYKpXStw8puJUobNF84V6I"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Login successful and token generated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "description": "The user ID."
+                    },
+                    "username": {
+                      "type": "string",
+                      "description": "The user name."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/users": {
+      "get": {
+        "tags": ["Users"],
+        "summary": "Get all registered users",
+        "description": "Returns the list of all registed users",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "User created"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
     "/transaction": {
       "post": {
+        "tags": ["Transactions"],
         "summary": "Create a transaction",
         "description": "Create a transaction",
         "produces": [
@@ -87,6 +191,11 @@
         ],
         "consumes": [
           "application/json"
+        ],
+        "security": [
+          {
+            "Authorization": []
+          }
         ],
         "parameters": [
           {
@@ -98,34 +207,36 @@
               "type": "object",
               "properties": {
                 "cryptoActive": {
-                  "type": "string"
+                  "type": "string",
+                  "example": "USDT"
                 },
                 "nominalAmount": {
-                  "type": "number"
+                  "type": "number",
+                  "example": 50
                 },
                 "cotization": {
-                  "type": "number"
+                  "type": "number",
+                  "example": 10
                 },
                 "operationValue": {
-                  "type": "number"
+                  "type": "number",
+                  "example": 10
                 },
-                "fullNameUser": {
-                  "type": "string"
+                "userEmail": {
+                  "type": "email",
+                  "example": "Hitestingsecondpart@binance.com"
                 },
                 "operationAmount": {
-                  "type": "number"
-                },
-                "reputation": {
-                  "type": "number"
+                  "type": "number",
+                  "example": 500
                 },
                 "action": {
-                  "type": "string"
+                  "type": "string",
+                  "example": "Realice la transferencia"
                 },
                 "type": {
-                  "type": "string"
-                },
-                "direction": {
-                  "type": "string"
+                  "type": "string",
+                  "example": "Venta"
                 }
               }
             }
@@ -141,18 +252,112 @@
         }
       }
     },
+    "/transactions": {
+      "get": {
+        "tags": ["Transactions"],
+        "summary": "Get all transactions",
+        "description": "Get all transactions within a date range, for the specified user",
+        "produces": [
+          "application/json"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "ltDate",
+            "in": "query",
+            "description": "Initial date of the range",
+            "required": true,
+            "schema": {
+              "type": "datetime",
+              "example": "2023-06-01T19:33:46.377Z"
+            }
+          },
+          {
+            "name": "gtDate",
+            "in": "query",
+            "description": "Final date of the range",
+            "required": true,
+            "schema": {
+              "type": "datetime",
+              "example": "2023-06-19T19:33:46.377Z"    
+            }
+          },
+          {
+            "name": "user",
+            "in": "query",
+            "description": "User email",
+            "required": true,
+            "schema": {
+              "type": "email",
+              "example": "Hitestingsecondpart@binance.com"   
+            }
+          }
+        ],
+         "responses": {
+          "201": {
+            "description": "Transaction created"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
     "/cotizations": {
       "get": {
+        "tags": ["Cotizations"],
         "description": "Get most famous crypto-currencies prices",
         "responses": {
           "200": {
-            "description": "Welcome to Cripto-p2p"
+            "description": "A list with current currency prices"
+          }
+        }
+      }
+    },
+    "/lastcotization": {
+      "get": {
+        "tags": ["Cotizations"],
+        "description": "Get Last famous crypto-currencies prices (Cached version)",
+        "responses": {
+          "200": {
+            "description": "A list with current currency prices"
+          }
+        }
+      }
+    },
+    "/lastdaycotizations": {
+      "get": {
+        "tags": ["Cotizations"],
+        "description": "Get last day cotizations from a specific currency",
+        "parameters": [
+          {
+            "name": "currency",
+            "in": "query",
+            "description": "Currency name",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "TRXUSDT"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A list with last cotizations from the specified currency"
           }
         }
       }
     },
     "/intentions": {
       "post": {
+        "tags": ["Intentions"],
         "summary": "Create a Buy / Sell intention",
         "description": "Create a Buy / Sell intention",
         "produces": [
@@ -160,6 +365,11 @@
         ],
         "consumes": [
           "application/json"
+        ],
+        "security": [
+          {
+            "Authorization": []
+          }
         ],
         "parameters": [
           {
@@ -170,11 +380,15 @@
             "schema": {
               "type": "object",
               "properties": {
-                "criptoName": {
+                "datetime": {
+                  "type": "datetime",
+                  "example": "2021-10-10 10:10:10"
+                },
+                "cryptoName": {
                   "type": "string",
                   "example": "USDT"
                 },
-                "amountCripto": {
+                "amountCrypto": {
                   "type": "number",
                   "example": 200
                 },
@@ -190,6 +404,10 @@
                   "type": "string",
                   "description": "The username",
                   "example": "John Doe"
+                },
+                "userEmail": {
+                  "type": "string",
+                  "example": "johndoe@gmail.com"
                 },
                 "type": {
                   "type": "string",
@@ -211,7 +429,13 @@
         }
       },
       "get": {
+        "tags": ["Intentions"],
         "description": "Get a list of all BUY / SELL intentions",
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
         "responses": {
           "200": {
             "description": "a list of all intentions"

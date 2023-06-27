@@ -1,8 +1,8 @@
 const mongoose = require('mongoose')
 const transactionSchema = mongoose.model('Transaction')
 const userSchema = mongoose.model('User')
-// const Transaction = require('../model/Transaction')
 const ReputationEnum = require('../model/enums/reputation')
+const verifyToken = require('../webservice/tokenVerification.js')
 
 const getUserData = async (email, res) => {
   try {
@@ -15,15 +15,21 @@ const getUserData = async (email, res) => {
 }
 
 const getReputation = (user) => {
-  if (user.totalOperations === 0) return ReputationEnum.NO_OPERATIONS_YET
+  if (!user || user.totalOperations === 0) return ReputationEnum.NO_OPERATIONS_YET
 
   return (user.completedOperations / user.totalOperations).toString()
 }
 
 const doTransaction = async (req, res) => {
   try {
+    const verify = await verifyToken(req, res)
+
+    if (verify.message === 'Unauthorized' || verify.message === 'Invalid token') {
+      return res.status(verify.status).send(verify.message)
+    }
+
     const transactionData = req.body
-    const user = await getUserData(transactionData.userEmail, res)
+    const user = req.body.user ? req.body.user : await getUserData(transactionData.userEmail.toString(), res)
 
     let stringedData = {
       cryptoActive: transactionData.cryptoActive.toString(),
@@ -35,8 +41,6 @@ const doTransaction = async (req, res) => {
       type: transactionData.type.toString()
     }
 
-    // const transaction = new Transaction(stringedData.cryptoActive, stringedData.nominalAmount, stringedData.cotization, stringedData.operationValue, user, stringedData.operationAmount, getReputation(user), stringedData.action, stringedData.type)
-
     if (stringedData.action === 'Cancelar') return res.status(200).send({ message: 'Transaction canceled' })
 
     const action = () => {
@@ -44,21 +48,43 @@ const doTransaction = async (req, res) => {
       else if (stringedData.action === 'Confirmar recepción') return 'Buyer'
     }
 
-    stringedData = { ...stringedData, user: user, reputation: getReputation(user) }
+    const isValidTransactionData = (data) => {
+      return (
+        data.cryptoActive &&
+        data.nominalAmount &&
+        data.cotization &&
+        data.operationValue &&
+        data.operationAmount &&
+        data.action &&
+        data.type
+      )
+    }
 
-    await transactionSchema.create(stringedData)
+    if (isValidTransactionData(stringedData)) {
+      stringedData = { ...stringedData, user: user.toString(), reputation: getReputation(user).toString() }
 
-    res.status(201).send({
-      message: `Transaction created. ${action()}`,
-      direction: action() === 'Seller' ? stringedData.user.cvu : stringedData.user.criptoAdress
-    })
+      await transactionSchema.create(stringedData)
+
+      res.status(201).send({
+        message: `Transaction created. ${action()}`,
+        direction: action() === 'Seller' ? stringedData.user.cvu : stringedData.user.criptoAdress
+      })
+    } else {
+      res.status(500).send('Transaction creation: Internal server error: ' + 'invalid Data from Transacion')
+    }
   } catch (error) {
+    console.log(error)
     res.status(500).send('Internal server error:' + error)
   }
 }
 
 const getTransactions = async (req, res) => {
   try {
+    const verify = await verifyToken(req, res)
+    if (verify.message === 'Unauthorized' || verify.message === 'Invalid token') {
+      return res.status(verify.status).send(verify.message)
+    }
+
     const user = req.query.user
 
     const ltDate = req.query.ltDate ? new Date(req.query.ltDate) : new Date()
