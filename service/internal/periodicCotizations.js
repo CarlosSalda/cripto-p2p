@@ -27,7 +27,7 @@ const startAgenda = async () => {
   await client.flushDb()
   await agenda.start()
   console.log('Agenda started')
-  await agenda.every(`${COTIZATION_UPDATE_FREQUENCY} seconds`, COTIZATION_AGENDA_ID)
+  await agenda.every(`${COTIZATION_UPDATE_FREQUENCY} minutes`, COTIZATION_AGENDA_ID)
 }
 
 client.on('error', err => console.log('Redis Client Error', err, {

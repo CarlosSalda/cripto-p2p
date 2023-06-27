@@ -2,7 +2,7 @@ const axios = require('axios')
 
 const priceBinance = async (criptoName) => {
   try {
-    if (process.env.ENVIRONMENT === 'development') {
+    if (process.env.ENVIRONMENT === 'production') {
       const response = fakeBinanceResponse(criptoName)
       return response
     }
